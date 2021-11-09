@@ -1,3 +1,8 @@
 export { Header } from './Header'
 export { ColumnContainer } from './ColumnContainer'
 export { UnitsColumn } from './UnitsColumn'
+export { ComponentsColumn } from './ComponentsColumn'
+export { ActionTextField } from './ActionTextField'
+export { LabeledTextField } from './LabeledTextField'
+export { TextArea } from './TextArea'
+export { Button } from './Button'

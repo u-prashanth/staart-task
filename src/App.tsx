@@ -1,6 +1,6 @@
-import React from 'react';
+import { FunctionComponent } from 'react';
 import styled from 'styled-components'
-import { ColumnContainer, Header, UnitsColumn } from './components';
+import { ComponentsColumn, Header, UnitsColumn } from './components';
 
 
 const Container = styled.div`
@@ -32,10 +32,10 @@ const ContentWrapper = styled.div`
 	display: flex;
 	align-items: center;
 
-	background-color: #fcfcfc;
+	background-color: #fff;
 `
 
-const App = () => {
+const App: FunctionComponent<{}> = () => {
 
 	return (
 		<Container>
@@ -47,9 +47,7 @@ const App = () => {
 				<Sidebar />
 				<ContentWrapper>
 					<UnitsColumn />
-					<ColumnContainer />
-					<ColumnContainer />
-					<ColumnContainer />
+					<ComponentsColumn />
 				</ContentWrapper>
 			</Body>
 		</Container>
