@@ -1,6 +1,6 @@
 import { FunctionComponent } from 'react';
 import styled from 'styled-components'
-import { ComponentsColumn, Header, UnitsColumn } from './components';
+import { ComponentsColumn, Header, UnitsColumn, VendorColumn } from './components';
 
 
 const Container = styled.div`
@@ -47,6 +47,8 @@ const App: FunctionComponent<{}> = () => {
 				<Sidebar />
 				<ContentWrapper>
 					<UnitsColumn />
+					<ComponentsColumn />
+					<VendorColumn />
 					<ComponentsColumn />
 				</ContentWrapper>
 			</Body>

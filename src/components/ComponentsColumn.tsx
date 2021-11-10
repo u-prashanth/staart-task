@@ -20,12 +20,12 @@ const Header = styled.div`
     align-items: center;
     justify-content: center;
 
-    background-color: #f7f7f7;
+    background-color: #f7d25d;
 `
 
 const ColumnTitle = styled.h2`
     font-family: SFUITextBold;
-    font-size: 20px;
+    font-size: 18px;
     text-align: center;
     color: #3a3b3f;
 `
@@ -82,7 +82,9 @@ const UnitComponentWrapper = styled.div`
     height: auto;
 
     border-radius: 8px;
-    border: 1px solid #e9eaeb;
+    border: 1px solid #ffb64c;
+
+    overflow: hidden;
 
     background-color: #fff;
 `
@@ -91,7 +93,7 @@ const UnitComponentHeader = styled.div`
     width: 100%;
     height: 40px;
 
-    background-color: #e7e7e7;
+    background-color: #ffb64c;
 
     display: flex;
     align-items: center;
@@ -146,7 +148,7 @@ export const ComponentsColumn: FunctionComponent<{}> = () => {
         <ColumnContainer>
             <Wrapper>
                 <Header>
-                    <ColumnTitle>Add Components</ColumnTitle>
+                    <ColumnTitle>Unit 1</ColumnTitle>
                 </Header>
 
                 <Body>
@@ -157,28 +159,11 @@ export const ComponentsColumn: FunctionComponent<{}> = () => {
                             <Text>Component Name</Text>
                         </UnitComponentHeader>
                         <UnitComponentBody>
-                            <TextArea placeholder="Description" onChange={e => console.log(e.target.value)}/>
-                            <LabeledTextField label="Quantity" onChange={e => console.log(e.target.value)}/>
-                            <LabeledTextField label="Price" onChange={e => console.log(e.target.value)}/>
-                            <LabeledTextField label="Units" onChange={e => console.log(e.target.value)}/>
-
-                            <TotalTextWrapper>
-                                <Text style={{ color: '#868b8f' }}>Total</Text>
-                                <Text style={{ color: '#222327' }}>₹ 4800</Text>
-                            </TotalTextWrapper>
-                        </UnitComponentBody>
-                    </UnitComponentWrapper>
-
-
-                    <UnitComponentWrapper>
-                        <UnitComponentHeader>
-                            <Text>Component Name</Text>
-                        </UnitComponentHeader>
-                        <UnitComponentBody>
-                            <TextArea placeholder="Description" onChange={e => console.log(e.target.value)}/>
-                            <LabeledTextField label="Quantity" onChange={e => console.log(e.target.value)}/>
-                            <LabeledTextField label="Price" onChange={e => console.log(e.target.value)}/>
-                            <LabeledTextField label="Units" onChange={e => console.log(e.target.value)}/>
+                            <TextArea placeholder="Description of the Component" onChange={e => console.log(e.target.value)}/>
+                            
+                            <LabeledTextField label="Quantity" placeholder="Quantity of the Component" onChange={e => console.log(e.target.value)}/>
+                            <LabeledTextField label="Price" placeholder="Price of the Component" onChange={e => console.log(e.target.value)}/>
+                            <LabeledTextField label="Units" placeholder="Unit of Measurement" onChange={e => console.log(e.target.value)}/>
 
                             <TotalTextWrapper>
                                 <Text style={{ color: '#868b8f' }}>Total</Text>

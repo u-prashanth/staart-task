@@ -10,8 +10,9 @@ const Wrapper = styled.textarea`
     border-radius: 4px;
     background-color: #f4f4f4;
 
-    font-family: SFUITextSemiBold;
+    font-family: SFUITextRegular;
     font-size: 14px;
+    line-height: 20px;
     color: #3a3b3f;
 
     resize: none;

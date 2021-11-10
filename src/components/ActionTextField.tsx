@@ -5,13 +5,16 @@ import { IoMdAdd } from 'react-icons/all'
 
 const Wrapper = styled(motion.div)`
     width: 100%;
-    height: 42px;
+    height: 42px !important;
 
     border: 1px solid #e9e9e9;
     border-radius: 4px;
     background-color: #f4f4f4;
 
+    overflow: hidden;
+
     display: flex;
+    flex-shrink: 0;
     align-items: center;
 
     &:focus-within

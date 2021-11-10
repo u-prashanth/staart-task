@@ -32,8 +32,8 @@ export const Button: FunctionComponent<IButtonProps> = (props: IButtonProps) => 
         <Wrapper 
             style={props.style}
             whileHover={{ color: '#fff', backgroundColor: '#4177fe' }}
-            whileTap={{ backgroundColor: '#2122fe' }}
             transition={{ duration: 0.2 }}
+            whileTap={{ backgroundColor: '#2122fe' }}
         >
             {props.children}
         </Wrapper>

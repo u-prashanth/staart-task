@@ -27,7 +27,7 @@ const Header = styled.div`
 
 const ColumnTitle = styled.h2`
     font-family: SFUITextBold;
-    font-size: 20px;
+    font-size: 18px;
     text-align: center;
     color: #3a3b3f;
 `
@@ -141,8 +141,10 @@ const UnitListItem = styled.li`
 
     &:hover
     {
-        background-color: #f7f7f7;
+        background-color: #f7d25d;
     }
+
+    transition: all .15s ease;
 `
 
 const UnitListItemTitle = styled.h3`
@@ -178,28 +180,28 @@ export const UnitsColumn: FunctionComponent<{}> = () => {
                     <RoomWrapper>
                         <RoomHeader>Master Bedroom</RoomHeader>
 
-                        <ActionTextField onChange={e => console.log(e.target.value)} />
+                        <ActionTextField placeholder="Type here to Add Unit" onChange={e => console.log(e.target.value)} />
 
                         <AnimatePresence>
                             <UnitList>
                                 <UnitListItem>
                                     <UnitListItemTitle>Wardrobe</UnitListItemTitle>
                                     <UnitListItemActionButton>
-                                        <TiDelete fontSize={22} color="#969696"/>
+                                        <TiDelete fontSize={22} color="#ff5722"/>
                                     </UnitListItemActionButton>
                                 </UnitListItem>
 
                                 <UnitListItem>
                                     <UnitListItemTitle>Bed</UnitListItemTitle>
                                     <UnitListItemActionButton>
-                                        <TiDelete fontSize={22} color="#969696"/>
+                                        <TiDelete fontSize={22} color="#ff5722"/>
                                     </UnitListItemActionButton>
                                 </UnitListItem>
 
                                 <UnitListItem>
                                     <UnitListItemTitle>Dressing Table</UnitListItemTitle>
                                     <UnitListItemActionButton>
-                                        <TiDelete fontSize={22} color="#969696"/>
+                                        <TiDelete fontSize={22} color="#ff5722"/>
                                     </UnitListItemActionButton>
                                 </UnitListItem>
                             </UnitList>
@@ -209,14 +211,14 @@ export const UnitsColumn: FunctionComponent<{}> = () => {
                     <RoomWrapper>
                         <RoomHeader>Bedroom 1</RoomHeader>
 
-                        {/* <ActionTextField /> */}
+                        <ActionTextField placeholder="Type here to Add Unit" onChange={e => console.log(e.target.value)} />
 
                         <AnimatePresence>
                             <UnitList>
                                 <UnitListItem>
                                     <UnitListItemTitle>Bookshelf</UnitListItemTitle>
                                     <UnitListItemActionButton>
-                                        <TiDelete fontSize={22} color="#969696"/>
+                                        <TiDelete fontSize={22} color="#ff5722"/>
                                     </UnitListItemActionButton>
                                 </UnitListItem>
                             </UnitList>
@@ -226,14 +228,14 @@ export const UnitsColumn: FunctionComponent<{}> = () => {
                     <RoomWrapper>
                         <RoomHeader>Kitchen</RoomHeader>
 
-                        {/* <ActionTextField /> */}
+                        <ActionTextField placeholder="Type here to Add Unit" onChange={e => console.log(e.target.value)} />
 
                         <AnimatePresence>
                             <UnitList>
                                 <UnitListItem>
                                     <UnitListItemTitle>Modular Shelfs</UnitListItemTitle>
                                     <UnitListItemActionButton>
-                                        <TiDelete fontSize={22} color="#969696"/>
+                                        <TiDelete fontSize={22} color="#ff5722"/>
                                     </UnitListItemActionButton>
                                 </UnitListItem>
                             </UnitList>

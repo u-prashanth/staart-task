@@ -46,6 +46,13 @@ const InputField = styled.input`
         outline: none;
         border: 1px solid #c6c6c6;
     }
+
+    &::placeholder
+    {
+        font-family: SFUITextRegular;
+        font-size: 14px;
+        color: #a9aeb1;
+    }
 `
 
 
@@ -54,6 +61,7 @@ interface ILabeledTextFieldProps
     label: string;
     style?: React.CSSProperties;
     type?: React.HTMLInputTypeAttribute | undefined;
+    placeholder?: string;
     onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
 }
 

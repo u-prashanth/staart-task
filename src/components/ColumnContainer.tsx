@@ -7,9 +7,9 @@ const Wrapper = styled.div`
     margin: 0px 16px 0px 16px;
 
     border-radius: 8px;
-    border: 1px solid #e9eaeb;
+    border: 1px solid #f7d25d; 
 
-    background-color: #fcfcfc;
+    // #f7d25d
 
     overflow: hidden;
 `
