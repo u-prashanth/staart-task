@@ -1,4 +1,5 @@
 import React from 'react'
+import { IoMdTrash } from 'react-icons/all'
 import styled from 'styled-components'
 import { ActionTextField, ColumnContainer, LabeledTextField } from '.'
 
@@ -98,14 +99,30 @@ const Body = styled.div`
     }
 `
 
-const TwoColGrid = styled.div`
+const ThreeColGrid = styled.div`
     width: 100%;
 
     flex-shrik: 0;
 
     display: grid;
-    grid-template-columns: auto auto;
+    grid-template-columns: auto auto 40px;
     column-gap: 10px;
+    align-items: center;
+`
+
+const IconWrapper = styled.div`
+    width: 30px;
+    height: 30px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    cursor: pointer;
+
+    & > *:hover {
+        filter: brightness(80%);
+    }
 `
 
 export const MilestonesColumn = () => {
@@ -121,80 +138,37 @@ export const MilestonesColumn = () => {
                         <ActionTextField placeholder="Type to Add Milestone" onChange={e => console.log }/>
                     </BodyHeader>
                     <Body>
-                        <TwoColGrid>
+                        <ThreeColGrid>
                             <LabeledTextField label="Milestone" placeholder="Milestone Name" onChange={e => console.log(e.target.value)}/>
                             <LabeledTextField label="%" placeholder="Progress" onChange={e => console.log(e.target.value)}/>
-                        </TwoColGrid>
+                            <IconWrapper>
+                                <IoMdTrash fontSize={22} color="red" style={{ marginTop: 24 }} />
+                            </IconWrapper>
+                        </ThreeColGrid>
 
-                        <TwoColGrid>
+                        <ThreeColGrid>
                             <LabeledTextField label="Milestone" placeholder="Milestone Name" onChange={e => console.log(e.target.value)}/>
                             <LabeledTextField label="%" placeholder="Progress" onChange={e => console.log(e.target.value)}/>
-                        </TwoColGrid>
+                            <IconWrapper>
+                                <IoMdTrash fontSize={22} color="red" style={{ marginTop: 24 }} />
+                            </IconWrapper>
+                        </ThreeColGrid>
 
-                        <TwoColGrid>
+                        <ThreeColGrid>
                             <LabeledTextField label="Milestone" placeholder="Milestone Name" onChange={e => console.log(e.target.value)}/>
                             <LabeledTextField label="%" placeholder="Progress" onChange={e => console.log(e.target.value)}/>
-                        </TwoColGrid>
+                            <IconWrapper>
+                                <IoMdTrash fontSize={22} color="red" style={{ marginTop: 24 }} />
+                            </IconWrapper>
+                        </ThreeColGrid>
 
-                        <TwoColGrid>
+                        <ThreeColGrid>
                             <LabeledTextField label="Milestone" placeholder="Milestone Name" onChange={e => console.log(e.target.value)}/>
                             <LabeledTextField label="%" placeholder="Progress" onChange={e => console.log(e.target.value)}/>
-                        </TwoColGrid>
-
-                        <TwoColGrid>
-                            <LabeledTextField label="Milestone" placeholder="Milestone Name" onChange={e => console.log(e.target.value)}/>
-                            <LabeledTextField label="%" placeholder="Progress" onChange={e => console.log(e.target.value)}/>
-                        </TwoColGrid>
-
-                        <TwoColGrid>
-                            <LabeledTextField label="Milestone" placeholder="Milestone Name" onChange={e => console.log(e.target.value)}/>
-                            <LabeledTextField label="%" placeholder="Progress" onChange={e => console.log(e.target.value)}/>
-                        </TwoColGrid>
-
-                        <TwoColGrid>
-                            <LabeledTextField label="Milestone" placeholder="Milestone Name" onChange={e => console.log(e.target.value)}/>
-                            <LabeledTextField label="%" placeholder="Progress" onChange={e => console.log(e.target.value)}/>
-                        </TwoColGrid>
-
-                        <TwoColGrid>
-                            <LabeledTextField label="Milestone" placeholder="Milestone Name" onChange={e => console.log(e.target.value)}/>
-                            <LabeledTextField label="%" placeholder="Progress" onChange={e => console.log(e.target.value)}/>
-                        </TwoColGrid>
-
-                        <TwoColGrid>
-                            <LabeledTextField label="Milestone" placeholder="Milestone Name" onChange={e => console.log(e.target.value)}/>
-                            <LabeledTextField label="%" placeholder="Progress" onChange={e => console.log(e.target.value)}/>
-                        </TwoColGrid>
-
-                        <TwoColGrid>
-                            <LabeledTextField label="Milestone" placeholder="Milestone Name" onChange={e => console.log(e.target.value)}/>
-                            <LabeledTextField label="%" placeholder="Progress" onChange={e => console.log(e.target.value)}/>
-                        </TwoColGrid>
-
-                        <TwoColGrid>
-                            <LabeledTextField label="Milestone" placeholder="Milestone Name" onChange={e => console.log(e.target.value)}/>
-                            <LabeledTextField label="%" placeholder="Progress" onChange={e => console.log(e.target.value)}/>
-                        </TwoColGrid>
-
-                        <TwoColGrid>
-                            <LabeledTextField label="Milestone" placeholder="Milestone Name" onChange={e => console.log(e.target.value)}/>
-                            <LabeledTextField label="%" placeholder="Progress" onChange={e => console.log(e.target.value)}/>
-                        </TwoColGrid>
-
-                        <TwoColGrid>
-                            <LabeledTextField label="Milestone" placeholder="Milestone Name" onChange={e => console.log(e.target.value)}/>
-                            <LabeledTextField label="%" placeholder="Progress" onChange={e => console.log(e.target.value)}/>
-                        </TwoColGrid>
-
-                        <TwoColGrid>
-                            <LabeledTextField label="Milestone" placeholder="Milestone Name" onChange={e => console.log(e.target.value)}/>
-                            <LabeledTextField label="%" placeholder="Progress" onChange={e => console.log(e.target.value)}/>
-                        </TwoColGrid>
-
-                        <TwoColGrid>
-                            <LabeledTextField label="Milestone" placeholder="Milestone Name" onChange={e => console.log(e.target.value)}/>
-                            <LabeledTextField label="%" placeholder="Progress" onChange={e => console.log(e.target.value)}/>
-                        </TwoColGrid>
+                            <IconWrapper>
+                                <IoMdTrash fontSize={22} color="red" style={{ marginTop: 24 }} />
+                            </IconWrapper>
+                        </ThreeColGrid>
                     </Body>
                 </BodyWrapper>
             </Wrapper>

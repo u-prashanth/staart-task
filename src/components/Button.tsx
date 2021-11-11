@@ -2,7 +2,6 @@ import React, { FunctionComponent } from "react"
 import styled from "styled-components"
 import { motion } from 'framer-motion'
 
-
 const Wrapper = styled(motion.button)`
     width: auto;
     height: 40px;

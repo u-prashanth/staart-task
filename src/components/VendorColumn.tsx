@@ -1,6 +1,6 @@
 import { FunctionComponent } from 'react'
 import styled from 'styled-components'
-import { ColumnContainer, TabComponent } from '.'
+import { ColumnContainer, TabComponent, WorkTab } from '.'
 
 const Wrapper = styled.div`
     width: 100%;
@@ -87,7 +87,18 @@ export const VendorColumn: FunctionComponent<{}> = () => {
                 </Header>
 
                 <Body>
-                    <TabComponent />
+                    <TabComponent 
+                        tabData={[
+                            {
+                                title: 'Work',
+                                component: <WorkTab />
+                            },
+                            {
+                                title: 'Materials',
+                                component: <></>
+                            }
+                        ]}
+                    />
                 </Body>
             </Wrapper>
         </ColumnContainer>

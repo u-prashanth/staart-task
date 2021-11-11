@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { FunctionComponent } from 'react'
 import styled from 'styled-components'
 
 const Wrapper = styled.select`
@@ -33,9 +33,9 @@ const Option = styled.option`
     color: #575757;
 `
 
-export const Dropdown = () => {
+export const Dropdown: FunctionComponent<{}> = (props) => {
     return (
-        <Wrapper>
+        <Wrapper {...props}>
             <Option>Only Work</Option>
             <Option>Work + Material</Option>
         </Wrapper>
