@@ -6,6 +6,8 @@ const Wrapper = styled.div`
 
     overflow: hidden;
 
+    flex-shrink: 0;
+
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -40,6 +42,8 @@ const InputField = styled.input`
     font-family: SFUITextSemiBold;
     font-size: 14px;
     color: #575757;
+
+    flex-shrink: 0;
 
     &:focus
     {

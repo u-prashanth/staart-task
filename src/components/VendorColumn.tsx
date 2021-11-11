@@ -1,6 +1,6 @@
 import { FunctionComponent } from 'react'
 import styled from 'styled-components'
-import { ColumnContainer } from '.'
+import { ColumnContainer, TabComponent } from '.'
 
 const Wrapper = styled.div`
     width: 100%;
@@ -12,7 +12,7 @@ const Wrapper = styled.div`
 
 const Header = styled.div`
     width: 100%;
-    height: 60px;
+    height: 50px;
 
     border-bottom: 1px solid #e9eaeb;
 
@@ -20,12 +20,12 @@ const Header = styled.div`
     align-items: center;
     justify-content: center;
 
-    background-color: #f7f7f7;
+    background-color: #ffd24b;
 `
 
 const ColumnTitle = styled.h2`
     font-family: SFUITextBold;
-    font-size: 18px;
+    font-size: 16px;
     text-align: center;
     color: #3a3b3f;
 `
@@ -42,6 +42,7 @@ const Body = styled.div`
     display: flex;
     flex-direction: column;
     flex: 1;
+    flex-shrink: 0;
 
     & > *
     {
@@ -82,11 +83,11 @@ export const VendorColumn: FunctionComponent<{}> = () => {
         <ColumnContainer>
             <Wrapper>
                 <Header>
-                    <ColumnTitle>Component Name</ColumnTitle>
+                    <ColumnTitle>Vendors</ColumnTitle>
                 </Header>
 
                 <Body>
-
+                    <TabComponent />
                 </Body>
             </Wrapper>
         </ColumnContainer>

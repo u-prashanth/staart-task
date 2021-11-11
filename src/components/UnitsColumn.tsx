@@ -14,7 +14,7 @@ const Wrapper = styled.div`
 
 const Header = styled.div`
     width: 100%;
-    height: 60px;
+    height: 50px;
 
     border-bottom: 1px solid #e9eaeb;
 
@@ -22,12 +22,12 @@ const Header = styled.div`
     align-items: center;
     justify-content: center;
 
-    background-color: #f7f7f7;
+    background-color: #fed24b;
 `
 
 const ColumnTitle = styled.h2`
     font-family: SFUITextBold;
-    font-size: 18px;
+    font-size: 16px;
     text-align: center;
     color: #3a3b3f;
 `

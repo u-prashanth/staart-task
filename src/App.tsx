@@ -1,26 +1,47 @@
 import { FunctionComponent } from 'react';
 import styled from 'styled-components'
-import { ComponentsColumn, Header, UnitsColumn, VendorColumn } from './components';
+import { ComponentsColumn, Header, MilestonesColumn, Sidebar, UnitsColumn, VendorColumn } from './components';
 
 
 const Container = styled.div`
 	width: 100%;
 	height: 100%;
-
 `
 
 const Body = styled.div`
 	width: 100%;
-	height: calc(100vh - 60px);
+	height: 100vh;
 
 	display: flex;
+	flex-direction: row;
 `
 
-const Sidebar = styled.div`
-	width: 60px;
+const VerticalContentWrapper = styled.div`
+	width: 100%;
 	height: 100%;
-	
-	border-right: 1px solid #efefef;
+
+	display: flex;
+	flex-direction: column;
+
+	overflow-y: hidden;
+	overflow-x: auto;
+
+	&::-webkit-scrollbar {
+        height: 4px;
+    }
+
+    &::-webkit-scrollbar-track {
+        background: transparant;
+    }
+
+    &::-webkit-scrollbar-thumb {
+        background: #e7e7e7;
+        border-radius: 10px;
+    }
+
+    &::-webkit-scrollbar-thumb:hover {
+        background: #969696;
+    }
 `
 
 const ContentWrapper = styled.div`
@@ -28,29 +49,51 @@ const ContentWrapper = styled.div`
 	height: 100%;
 
 	padding: 20px;
+	background-color: #fff;
 
 	display: flex;
 	align-items: center;
 
-	background-color: #fff;
+	overflow: hidden;
+	overflow-x: auto;
+
+	&::-webkit-scrollbar {
+        height: 4px;
+    }
+
+    &::-webkit-scrollbar-track {
+        background: transparant;
+    }
+
+    &::-webkit-scrollbar-thumb {
+        background: #e7e7e7;
+        border-radius: 10px;
+    }
+
+    &::-webkit-scrollbar-thumb:hover {
+        background: #969696;
+    }
 `
 
 const App: FunctionComponent<{}> = () => {
 
 	return (
 		<Container>
-			<Header>
-
-			</Header>
-
 			<Body>
-				<Sidebar />
-				<ContentWrapper>
-					<UnitsColumn />
-					<ComponentsColumn />
-					<VendorColumn />
-					<ComponentsColumn />
-				</ContentWrapper>
+				<Sidebar>
+					
+				</Sidebar>
+				<VerticalContentWrapper>
+					<Header>
+
+					</Header>
+					<ContentWrapper>
+						<UnitsColumn />
+						<ComponentsColumn />
+						<VendorColumn />
+						<MilestonesColumn />
+					</ContentWrapper>
+				</VerticalContentWrapper>
 			</Body>
 		</Container>
 	)

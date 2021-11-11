@@ -1,6 +1,7 @@
 import React, { FunctionComponent } from 'react'
 import styled from 'styled-components'
 import { ActionTextField, ColumnContainer, LabeledTextField, TextArea } from '.'
+import { IoIosArrowForward, IoMdTrash } from 'react-icons/all'
 
 const Wrapper = styled.div`
     width: 100%;
@@ -12,7 +13,7 @@ const Wrapper = styled.div`
 
 const Header = styled.div`
     width: 100%;
-    height: 60px;
+    height: 50px;
 
     border-bottom: 1px solid #e9eaeb;
 
@@ -20,14 +21,40 @@ const Header = styled.div`
     align-items: center;
     justify-content: center;
 
-    background-color: #f7d25d;
+    flex-shrink: 0;
+
+    background-color: #ffd24b;
 `
 
 const ColumnTitle = styled.h2`
     font-family: SFUITextBold;
-    font-size: 18px;
+    font-size: 16px;
     text-align: center;
     color: #3a3b3f;
+`
+
+const BodyWrapper = styled.div`
+    width: 100%;
+    height: 100%;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    overflow: hidden;
+`
+
+const BodyHeader = styled.div`
+    width: 100%;
+    height: auto;
+
+    padding: 10px;
+    border-bottom: 1px solid #eaeaeb;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
 `
 
 const Body = styled.div`
@@ -50,7 +77,7 @@ const Body = styled.div`
 
     & > *:first-child
     {
-        margin-bottom: 20px;
+        margin-bottom: 10px;
     }
 
     & > *:last-child
@@ -82,7 +109,9 @@ const UnitComponentWrapper = styled.div`
     height: auto;
 
     border-radius: 8px;
-    border: 1px solid #ffb64c;
+    border: 1px solid #eaeaeb;
+
+    flex-shrink: 0;
 
     overflow: hidden;
 
@@ -93,11 +122,12 @@ const UnitComponentHeader = styled.div`
     width: 100%;
     height: 40px;
 
-    background-color: #ffb64c;
+    background-color: #5a5a5a;
 
     display: flex;
     align-items: center;
-    padding-left: 10px;
+    justify-content: space-between;
+    padding: 0px 10px;
 
     border-bottom: 1px solid #e9eaeb;
 `
@@ -111,6 +141,8 @@ const UnitComponentBody = styled.div`
 
     background-color: #fff;
 
+    flex-shrink: 0;
+
     & > *
     {
         margin-bottom: 10px;
@@ -120,6 +152,10 @@ const UnitComponentBody = styled.div`
     {
         margin-bottom: 0px;
     }
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 `
 
 const TotalTextWrapper = styled.div`
@@ -143,36 +179,83 @@ const Text = styled.div`
     // text-align: center;
 `
 
+const LinkStyleButton = styled.button`
+    border: none;
+    background-color: transparent;
+
+    font-family: SFUITextSemiBold;
+    font-size: 14px;
+    color: #e58800;
+
+    display: flex;
+    align-items: center;
+    align-self: center;
+
+    cursor: pointer;
+`
+
 export const ComponentsColumn: FunctionComponent<{}> = () => {
     return (
         <ColumnContainer>
             <Wrapper>
                 <Header>
-                    <ColumnTitle>Unit 1</ColumnTitle>
+                    <ColumnTitle>Unit 1 - Components</ColumnTitle>
                 </Header>
 
-                <Body>
-                    <ActionTextField placeholder="Type to Add Component" onChange={e => console.log(e.target.value)}/>
+                <BodyWrapper>
+                    <BodyHeader>
+                        <ActionTextField placeholder="Type here to Add Component" onChange={e => console.log(e.target.value)}/>
+                    </BodyHeader>
+                    <Body>
+                        <UnitComponentWrapper>
+                            <UnitComponentHeader>
+                                <Text style={{ color: '#fff' }}>Component Name</Text>
+                                <IoMdTrash fontSize={20} color="#fff"/>
+                            </UnitComponentHeader>
+                            <UnitComponentBody>
+                                <TextArea placeholder="Description of the Component" onChange={e => console.log(e.target.value)}/>
+                                
+                                <LabeledTextField label="Quantity" placeholder="0" onChange={e => console.log(e.target.value)}/>
+                                <LabeledTextField label="Price" placeholder="₹ 0.0" onChange={e => console.log(e.target.value)}/>
+                                <LabeledTextField label="Units" placeholder="Ex. Sq.ft, in, cm, kg" onChange={e => console.log(e.target.value)}/>
 
-                    <UnitComponentWrapper>
-                        <UnitComponentHeader>
-                            <Text>Component Name</Text>
-                        </UnitComponentHeader>
-                        <UnitComponentBody>
-                            <TextArea placeholder="Description of the Component" onChange={e => console.log(e.target.value)}/>
-                            
-                            <LabeledTextField label="Quantity" placeholder="Quantity of the Component" onChange={e => console.log(e.target.value)}/>
-                            <LabeledTextField label="Price" placeholder="Price of the Component" onChange={e => console.log(e.target.value)}/>
-                            <LabeledTextField label="Units" placeholder="Unit of Measurement" onChange={e => console.log(e.target.value)}/>
+                                <TotalTextWrapper>
+                                    <Text style={{ color: '#868b8f' }}>Total</Text>
+                                    <Text style={{ color: '#222327' }}>₹ 4800</Text>
+                                </TotalTextWrapper>
 
-                            <TotalTextWrapper>
-                                <Text style={{ color: '#868b8f' }}>Total</Text>
-                                <Text style={{ color: '#222327' }}>₹ 4800</Text>
-                            </TotalTextWrapper>
-                        </UnitComponentBody>
-                    </UnitComponentWrapper>
+                                <LinkStyleButton>
+                                    Vendors <IoIosArrowForward fontSize={14} color="#e58800"/>
+                                </LinkStyleButton>
+                            </UnitComponentBody>
+                        </UnitComponentWrapper>
 
-                </Body>
+
+                        <UnitComponentWrapper>
+                            <UnitComponentHeader>
+                                <Text style={{ color: '#fff' }}>Component Name</Text>
+                                <IoMdTrash fontSize={20} color="#fff"/>
+                            </UnitComponentHeader>
+                            <UnitComponentBody>
+                                <TextArea placeholder="Description of the Component" onChange={e => console.log(e.target.value)}/>
+                                
+                                <LabeledTextField label="Quantity" placeholder="0" onChange={e => console.log(e.target.value)}/>
+                                <LabeledTextField label="Price" placeholder="₹ 0.0" onChange={e => console.log(e.target.value)}/>
+                                <LabeledTextField label="Units" placeholder="Ex. Sq.ft, in, cm, kg" onChange={e => console.log(e.target.value)}/>
+
+                                <TotalTextWrapper>
+                                    <Text style={{ color: '#868b8f' }}>Total</Text>
+                                    <Text style={{ color: '#222327' }}>₹ 4800</Text>
+                                </TotalTextWrapper>
+
+                                <LinkStyleButton>
+                                    Vendors <IoIosArrowForward fontSize={14} color="#e58800"/>
+                                </LinkStyleButton>
+                            </UnitComponentBody>
+                        </UnitComponentWrapper>
+
+                    </Body>
+                </BodyWrapper>
             </Wrapper>
         </ColumnContainer>
     )
