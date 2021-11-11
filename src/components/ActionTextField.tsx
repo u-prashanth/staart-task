@@ -66,6 +66,7 @@ interface IActionTextFieldProps
     style?: React.CSSProperties;
     placeholder?: string;
     onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+    onKeyDown?: (event: React.KeyboardEvent<HTMLInputElement>) => void;
 }
 
 export const ActionTextField: FunctionComponent<IActionTextFieldProps> = (props: IActionTextFieldProps) => {
@@ -100,6 +101,7 @@ export const ActionTextField: FunctionComponent<IActionTextFieldProps> = (props:
                     handleInputChange(e.target.value)
                     props.onChange(e)
                 }}
+                onKeyDown={props.onKeyDown}
             />
             <ActionButtonWrapper
                 initial={{ opacity: 0, translateX: 40 }}

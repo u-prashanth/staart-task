@@ -1,6 +1,5 @@
 import React, { FunctionComponent, useState } from 'react'
 import styled from 'styled-components'
-import { IoIosArrowForward, IoMdTrash } from 'react-icons/all'
 
 const Wrapper = styled.div`
     width: 100%;

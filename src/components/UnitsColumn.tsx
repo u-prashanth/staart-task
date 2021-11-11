@@ -1,8 +1,12 @@
-import { FunctionComponent } from 'react'
+import { FunctionComponent, useState, useEffect } from 'react'
 import styled from 'styled-components'
-import { AnimatePresence } from 'framer-motion'
+import { AnimatePresence, motion } from 'framer-motion'
+import { IoMdOpen, TiDelete } from 'react-icons/all'
 import { ActionTextField, Button, ColumnContainer, IconWrapper } from '.'
-import { TiDelete } from 'react-icons/all'
+import { useDispatch, useSelector } from 'react-redux'
+import { bindActionCreators } from 'redux'
+import { ActionCreators } from '../redux'
+import { State } from '../redux/state/reducers/RootReducer'
 
 const Wrapper = styled.div`
     width: 100%;
@@ -97,7 +101,7 @@ const Footer = styled.div`
 `
 
 
-const RoomWrapper = styled.div`
+const RoomWrapper = styled(motion.div)`
     width: 100%;
     height: auto;
 
@@ -166,12 +170,12 @@ const RoomBodyHeader = styled.div`
     justify-content: center;
 `
 
-const UnitList = styled.ul`
+const UnitList = styled(motion.ul)`
     width: 100%;
     margin-top: 10px;
 `
 
-const UnitListItem = styled.li`
+const UnitListItem = styled(motion.li)<{ selected?: boolean }>`
     width: 100%;
     height: 52px;
 
@@ -182,6 +186,7 @@ const UnitListItem = styled.li`
     padding: 0px 10px;
 
     border-bottom: 1px solid #e8e8e8;
+    background-color: ${props => props.selected ? '#fed24b' : 'transparent'};
 
     &:last-child
     {
@@ -190,7 +195,7 @@ const UnitListItem = styled.li`
 
     &:hover
     {
-        background-color: #f4f4f4;
+        background-color: ${props => props.selected ? '#fed24b' : '#f4f4f4'};
     }
 
     transition: all .15s ease;
@@ -205,18 +210,21 @@ const UnitListItemTitle = styled.h3`
     color: #3a3b3f;
 `
 
-const UnitListItemActionButton = styled.div`
-    width: 52px;
-    height: 52px;
 
-    display: flex;
-    align-items: center;
-    justify-content: center;
 
-    cursor: pointer;
-`
+
 
 export const UnitsColumn: FunctionComponent<{}> = () => {
+
+    const dispatch = useDispatch();
+    const { AddUnitAction } = bindActionCreators(ActionCreators, dispatch);
+
+    const { rooms } = useSelector((state: State) => state.rooms);
+
+    useEffect(() => {
+        console.log(rooms);
+    }, [rooms])
+
     return (
         <ColumnContainer>
             <Wrapper>
@@ -226,166 +234,75 @@ export const UnitsColumn: FunctionComponent<{}> = () => {
                 
 
                 <Body>
-                    <RoomWrapper>
-                        <RoomHeader><RoomHeaderTitle>Master Bedroom</RoomHeaderTitle></RoomHeader>
+                    <AnimatePresence>
+                        {
+                            rooms?.map(room => (
+                                <RoomWrapper 
+                                    initial={{ opacity: 0 }}
+                                    animate={{ opacity: 1 }}
+                                    exit={{ opacity: 0 }}
+                                >
+                                    <RoomHeader>
+                                        <RoomHeaderTitle>{room.name}</RoomHeaderTitle>
+                                    </RoomHeader>
 
-                        <RoomBodyWrapper>
-                            <RoomBodyHeader>
-                                <ActionTextField placeholder="Type here to Add Unit" onChange={e => console.log(e.target.value)} />
-                            </RoomBodyHeader>
+                                    <RoomBodyWrapper>
+                                        <RoomBodyHeader>
+                                            <ActionTextField
+                                                placeholder="Type here to Add Unit" 
+                                                onChange={
+                                                    e => {
+                                                        
+                                                    }
+                                                }
+                                                onKeyDown={e => {
+                                                    if(e.key === 'Enter')
+                                                    {
+                                                        
+                                                    }
+                                                }} 
+                                            />
+                                        </RoomBodyHeader>
 
-                            <RoomBody>
-                                <AnimatePresence>
-                                    <UnitList>
-                                        <UnitListItem>
-                                            <UnitListItemTitle>Wardrobe</UnitListItemTitle>
-                                            <IconWrapper>
-                                                <TiDelete fontSize={22} color="#ff5722"/>
-                                            </IconWrapper>
-                                        </UnitListItem>
+                                        <AnimatePresence>
+                                            <RoomBody>
+                                                <UnitList>
+                                                    {
+                                                        room.units?.map(unit => (
+                                                            <AnimatePresence>
+                                                                <UnitListItem
+                                                                    initial={{ opacity: 0, translateY: -4, borderBottomColor: 'transparent' }}
+                                                                    animate={{ opacity: 1, translateY: 0, borderBottomColor: '#e8e8e8' }}
+                                                                    exit={{ opacity: 0, translateY: -4, borderBottomColor: 'transparent' }}
+                                                                    transition={{ duration: 0.2, ease: 'easeIn' }}
+                                                                >
+                                                                    <UnitListItemTitle>{unit.name}</UnitListItemTitle>
+                                                                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: 80 }}>
+                                                                        <IconWrapper>
+                                                                            <IoMdOpen fontSize={22} color="#212121"/>
+                                                                        </IconWrapper>
+                                                                        <IconWrapper>
+                                                                            <TiDelete fontSize={22} color="#ff5722"/>
+                                                                        </IconWrapper>
+                                                                    </div>
+                                                                </UnitListItem>
+                                                            </AnimatePresence>
+                                                        ))
+                                                    }
+                                                </UnitList>
+                                            </RoomBody>
+                                        </AnimatePresence>
+                                    </RoomBodyWrapper>
+                                </RoomWrapper>
+                            ))
+                        }
 
-                                        <UnitListItem>
-                                            <UnitListItemTitle>Bed</UnitListItemTitle>
-                                            <IconWrapper>
-                                                <TiDelete fontSize={22} color="#ff5722"/>
-                                            </IconWrapper>
-                                        </UnitListItem>
+                        
+                    </AnimatePresence>
 
-                                        <UnitListItem>
-                                            <UnitListItemTitle>Dressing Table</UnitListItemTitle>
-                                            <IconWrapper>
-                                                <TiDelete fontSize={22} color="#ff5722"/>
-                                            </IconWrapper>
-                                        </UnitListItem>
-
-                                        
-                                    </UnitList>
-                                </AnimatePresence>
-                            </RoomBody>
-                        </RoomBodyWrapper>
-                    </RoomWrapper>
-
-
-                    <RoomWrapper>
-                        <RoomHeader><RoomHeaderTitle>Master Bedroom</RoomHeaderTitle></RoomHeader>
-
-                        <RoomBodyWrapper>
-                            <RoomBodyHeader>
-                                <ActionTextField placeholder="Type here to Add Unit" onChange={e => console.log(e.target.value)} />
-                            </RoomBodyHeader>
-
-                            <RoomBody>
-                                <AnimatePresence>
-                                    <UnitList>
-                                        <UnitListItem>
-                                            <UnitListItemTitle>Wardrobe</UnitListItemTitle>
-                                            <IconWrapper>
-                                                <TiDelete fontSize={22} color="#ff5722"/>
-                                            </IconWrapper>
-                                        </UnitListItem>
-
-                                        <UnitListItem>
-                                            <UnitListItemTitle>Bed</UnitListItemTitle>
-                                            <IconWrapper>
-                                                <TiDelete fontSize={22} color="#ff5722"/>
-                                            </IconWrapper>
-                                        </UnitListItem>
-
-                                        <UnitListItem>
-                                            <UnitListItemTitle>Dressing Table</UnitListItemTitle>
-                                            <IconWrapper>
-                                                <TiDelete fontSize={22} color="#ff5722"/>
-                                            </IconWrapper>
-                                        </UnitListItem>
-
-                                        
-                                    </UnitList>
-                                </AnimatePresence>
-                            </RoomBody>
-                        </RoomBodyWrapper>
-                    </RoomWrapper>
-
-
-
-                    <RoomWrapper>
-                        <RoomHeader><RoomHeaderTitle>Master Bedroom</RoomHeaderTitle></RoomHeader>
-
-                        <RoomBodyWrapper>
-                            <RoomBodyHeader>
-                                <ActionTextField placeholder="Type here to Add Unit" onChange={e => console.log(e.target.value)} />
-                            </RoomBodyHeader>
-
-                            <RoomBody>
-                                <AnimatePresence>
-                                    <UnitList>
-                                        <UnitListItem>
-                                            <UnitListItemTitle>Wardrobe</UnitListItemTitle>
-                                            <IconWrapper>
-                                                <TiDelete fontSize={22} color="#ff5722"/>
-                                            </IconWrapper>
-                                        </UnitListItem>
-
-                                        <UnitListItem>
-                                            <UnitListItemTitle>Bed</UnitListItemTitle>
-                                            <IconWrapper>
-                                                <TiDelete fontSize={22} color="#ff5722"/>
-                                            </IconWrapper>
-                                        </UnitListItem>
-
-                                        <UnitListItem>
-                                            <UnitListItemTitle>Dressing Table</UnitListItemTitle>
-                                            <IconWrapper>
-                                                <TiDelete fontSize={22} color="#ff5722"/>
-                                            </IconWrapper>
-                                        </UnitListItem>
-
-                                        
-                                    </UnitList>
-                                </AnimatePresence>
-                            </RoomBody>
-                        </RoomBodyWrapper>
-                    </RoomWrapper>
-
-
-
-                    <RoomWrapper>
-                        <RoomHeader><RoomHeaderTitle>Master Bedroom</RoomHeaderTitle></RoomHeader>
-
-                        <RoomBodyWrapper>
-                            <RoomBodyHeader>
-                                <ActionTextField placeholder="Type here to Add Unit" onChange={e => console.log(e.target.value)} />
-                            </RoomBodyHeader>
-
-                            <RoomBody>
-                                <AnimatePresence>
-                                    <UnitList>
-                                        <UnitListItem>
-                                            <UnitListItemTitle>Wardrobe</UnitListItemTitle>
-                                            <IconWrapper>
-                                                <TiDelete fontSize={22} color="#ff5722"/>
-                                            </IconWrapper>
-                                        </UnitListItem>
-
-                                        <UnitListItem>
-                                            <UnitListItemTitle>Bed</UnitListItemTitle>
-                                            <IconWrapper>
-                                                <TiDelete fontSize={22} color="#ff5722"/>
-                                            </IconWrapper>
-                                        </UnitListItem>
-
-                                        <UnitListItem>
-                                            <UnitListItemTitle>Dressing Table</UnitListItemTitle>
-                                            <IconWrapper>
-                                                <TiDelete fontSize={22} color="#ff5722"/>
-                                            </IconWrapper>
-                                        </UnitListItem>
-
-                                        
-                                    </UnitList>
-                                </AnimatePresence>
-                            </RoomBody>
-                        </RoomBodyWrapper>
-                    </RoomWrapper>
+                    <button onClick={() => {
+                        AddUnitAction({ roomId: 3, data: { name: 'Hall', components: [] } })
+                    }}>Add Room</button>
                     
                 </Body>
 
