@@ -1,6 +1,6 @@
 import { FunctionComponent } from 'react';
 import styled from 'styled-components'
-import { ComponentsColumn, Header, MilestonesColumn, Model, Sidebar, UnitsColumn, VendorColumn } from './components';
+import { ComponentsColumn, Header, MilestonesColumn, Sidebar, UnitsColumn, VendorColumn } from './components';
 
 
 const Container = styled.div`
