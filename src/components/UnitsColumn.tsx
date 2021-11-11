@@ -6,7 +6,7 @@ import { ActionTextField, Button, ColumnContainer, IconWrapper } from '.'
 import { useDispatch, useSelector } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { ActionCreators } from '../redux'
-import { State } from '../redux/state/reducers/RootReducer'
+import { IRoom, State } from '../redux/state/reducers/RootReducer'
 
 const Wrapper = styled.div`
     width: 100%;
@@ -212,18 +212,103 @@ const UnitListItemTitle = styled.h3`
 
 
 
+const RoomCard: FunctionComponent<{ room: IRoom }> = (props: { room: IRoom }) => {
+
+    const [ value, setValue ] = useState('');
+
+    const dispatch = useDispatch();
+
+    const { AddUnitAction, RemoveUnitAction } = bindActionCreators(ActionCreators, dispatch);
+
+    const resetInput = () => {
+        setValue('');
+    }
+
+    const handleInput = (e: string) => {
+        setValue(e)
+    }
+
+    return (
+        <AnimatePresence>
+        <RoomWrapper 
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+        >
+            <RoomHeader>
+                <RoomHeaderTitle>{props.room.name}</RoomHeaderTitle>
+            </RoomHeader>
+
+            <RoomBodyWrapper>
+                <RoomBodyHeader>
+                    <ActionTextField
+                        value={value}
+                        placeholder="Type here to Add Unit" 
+                        onChange={e => handleInput(e.target.value)}
+                        onKeyDown={e => {
+                            if(e.key === 'Enter' && value !== '')
+                            {
+                                AddUnitAction({ roomId: props.room.roomId, data: { name: value, components: [] } })
+                                resetInput();
+                            }
+                        }}
+                        onClick={e => {
+                            AddUnitAction({ roomId: props.room.roomId, data: { name: value, components: [] } })
+                            resetInput();
+                        }}
+                    />
+                </RoomBodyHeader>
+
+                <RoomBody>
+                    {
+                        props.room.units?.length ?
+                        <UnitList>
+                            {
+                                props.room.units?.map((unit, index) => (
+                                    
+                                    <UnitListItem
+                                        key={index}
+                                        initial={{ borderBottomColor: 'transparent' }}
+                                        animate={{ borderBottomColor: '#e8e8e8' }}
+                                        exit={{ borderBottomColor: 'transparent' }}
+                                        transition={{ duration: 0.2, ease: 'easeIn' }}
+                                    >
+                                        <UnitListItemTitle>{unit.name}</UnitListItemTitle>
+                                        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: 80 }}>
+                                            <IconWrapper>
+                                                <IoMdOpen fontSize={20} color="#212121"/>
+                                            </IconWrapper>
+                                            <IconWrapper
+                                                onClick={e => {
+                                                    RemoveUnitAction({ roomId: props.room.roomId, unitIndex: index })
+                                                }}
+                                            >
+                                                <TiDelete fontSize={22} color="#ff5722"/>
+                                            </IconWrapper>
+                                        </div>
+                                    </UnitListItem>
+                                    
+                                ))
+                            }
+                        </UnitList>
+
+                        :
+
+                        <div style={{ width: '100%' }}>
+                            <p style={{ fontSize: 14, fontFamily: 'SFUITextRegular', color: "#aaaeb1", textAlign: 'center', padding: 10 }}>No Units</p>
+                        </div>
+                    }
+                </RoomBody>
+            </RoomBodyWrapper>
+        </RoomWrapper>
+        </AnimatePresence>
+    )
+}
+
 
 
 export const UnitsColumn: FunctionComponent<{}> = () => {
-
-    const dispatch = useDispatch();
-    const { AddUnitAction } = bindActionCreators(ActionCreators, dispatch);
-
     const { rooms } = useSelector((state: State) => state.rooms);
-
-    useEffect(() => {
-        console.log(rooms);
-    }, [rooms])
 
     return (
         <ColumnContainer>
@@ -237,73 +322,10 @@ export const UnitsColumn: FunctionComponent<{}> = () => {
                     <AnimatePresence>
                         {
                             rooms?.map(room => (
-                                <RoomWrapper 
-                                    initial={{ opacity: 0 }}
-                                    animate={{ opacity: 1 }}
-                                    exit={{ opacity: 0 }}
-                                >
-                                    <RoomHeader>
-                                        <RoomHeaderTitle>{room.name}</RoomHeaderTitle>
-                                    </RoomHeader>
-
-                                    <RoomBodyWrapper>
-                                        <RoomBodyHeader>
-                                            <ActionTextField
-                                                placeholder="Type here to Add Unit" 
-                                                onChange={
-                                                    e => {
-                                                        
-                                                    }
-                                                }
-                                                onKeyDown={e => {
-                                                    if(e.key === 'Enter')
-                                                    {
-                                                        
-                                                    }
-                                                }} 
-                                            />
-                                        </RoomBodyHeader>
-
-                                        <AnimatePresence>
-                                            <RoomBody>
-                                                <UnitList>
-                                                    {
-                                                        room.units?.map(unit => (
-                                                            <AnimatePresence>
-                                                                <UnitListItem
-                                                                    initial={{ opacity: 0, translateY: -4, borderBottomColor: 'transparent' }}
-                                                                    animate={{ opacity: 1, translateY: 0, borderBottomColor: '#e8e8e8' }}
-                                                                    exit={{ opacity: 0, translateY: -4, borderBottomColor: 'transparent' }}
-                                                                    transition={{ duration: 0.2, ease: 'easeIn' }}
-                                                                >
-                                                                    <UnitListItemTitle>{unit.name}</UnitListItemTitle>
-                                                                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: 80 }}>
-                                                                        <IconWrapper>
-                                                                            <IoMdOpen fontSize={22} color="#212121"/>
-                                                                        </IconWrapper>
-                                                                        <IconWrapper>
-                                                                            <TiDelete fontSize={22} color="#ff5722"/>
-                                                                        </IconWrapper>
-                                                                    </div>
-                                                                </UnitListItem>
-                                                            </AnimatePresence>
-                                                        ))
-                                                    }
-                                                </UnitList>
-                                            </RoomBody>
-                                        </AnimatePresence>
-                                    </RoomBodyWrapper>
-                                </RoomWrapper>
+                                <RoomCard key={room.roomId} room={room}/>
                             ))
                         }
-
-                        
                     </AnimatePresence>
-
-                    <button onClick={() => {
-                        AddUnitAction({ roomId: 3, data: { name: 'Hall', components: [] } })
-                    }}>Add Room</button>
-                    
                 </Body>
 
 

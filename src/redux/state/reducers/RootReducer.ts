@@ -52,7 +52,7 @@ interface IUnit
     components?: IComponent[];
 }
 
-interface IRoom
+export interface IRoom
 {
     roomId: string | number;
     name: string;
@@ -70,7 +70,16 @@ const initialState: IState = {
         {
             roomId: 1,
             name: 'Master Bedroom',
-            units: []
+            units: [
+                {
+                    name: 'Dressing Table',
+                    components: []
+                },
+                {
+                    name: 'Wardrobe',
+                    components: []
+                }
+            ]
         },
 
         {
@@ -101,7 +110,18 @@ export const RootReducer = (state: IState = initialState, action: IAddUnitAction
                 draftState.rooms?.map((room, index) => {
                     if(room.roomId === action.payload.roomId)
                     {
-                        return draftState.rooms![index].units?.push(action.payload.data)
+                        return draftState.rooms![index].units?.unshift(action.payload.data)
+                    }
+                })
+            })
+
+        case 'Remove_Unit':
+            return produce(state, (draftState) => {
+                draftState.rooms?.map((room, index) => {
+                    if(room.roomId === action.payload.roomId)
+                    {
+                        draftState.rooms![index].units?.splice(action.payload.unitIndex, 1);
+                        return draftState.rooms![index].units
                     }
                 })
             })

@@ -1,4 +1,4 @@
-import React, { ChangeEvent, FunctionComponent, useState } from "react"
+import React, { ChangeEvent, FunctionComponent, useEffect, useState } from "react"
 import styled from "styled-components"
 import { motion, useAnimation } from 'framer-motion'
 import { IoMdAdd } from 'react-icons/all'
@@ -65,13 +65,14 @@ interface IActionTextFieldProps
 {
     style?: React.CSSProperties;
     placeholder?: string;
+    value?: string | ''; 
     onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
     onKeyDown?: (event: React.KeyboardEvent<HTMLInputElement>) => void;
+    onClick?: (event: React.MouseEvent<HTMLDivElement>) => void
 }
 
 export const ActionTextField: FunctionComponent<IActionTextFieldProps> = (props: IActionTextFieldProps) => {
 
-    const [ value, setValue ] = useState('');
     const animationControl = useAnimation();
 
     const variants = {
@@ -86,21 +87,16 @@ export const ActionTextField: FunctionComponent<IActionTextFieldProps> = (props:
         }
     }
 
-
-    const handleInputChange = (value: any) => {
-        setValue(value);
-        value !== '' ? animationControl.start("show") : animationControl.start("hide");
-    }
+    useEffect(() => {
+        props.value !== '' ? animationControl.start("show") : animationControl.start("hide");
+    }, [props])
 
     return (
         <Wrapper>
             <InputField
                 placeholder={props.placeholder || ''} 
-                value={value}
-                onChange={e => {
-                    handleInputChange(e.target.value)
-                    props.onChange(e)
-                }}
+                value={props.value}
+                onChange={e => props.onChange(e)}
                 onKeyDown={props.onKeyDown}
             />
             <ActionButtonWrapper
@@ -108,6 +104,7 @@ export const ActionTextField: FunctionComponent<IActionTextFieldProps> = (props:
                 animate={animationControl}
                 variants={variants}
                 transition={{easings: 'easeIn' }}
+                onClick={props.onClick}
             >
                 <IoMdAdd fontSize={22} color="#3e3e3e" />
             </ActionButtonWrapper>

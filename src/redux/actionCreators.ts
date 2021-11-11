@@ -10,3 +10,15 @@ export const AddUnitAction = (unit: any) => {
         })
     }
 }
+
+
+export const RemoveUnitAction = (unit: any) => {
+    return (dispatch: Dispatch) => {
+        dispatch({
+            type: 'Remove_Unit',
+            payload: {
+                ...unit
+            }
+        })
+    }
+}

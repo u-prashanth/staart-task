@@ -16,9 +16,9 @@ const Wrapper = styled.div`
     }
 `
 
-export const IconWrapper: FunctionComponent<{ style?: React.CSSProperties }> = (props) => {
+export const IconWrapper: FunctionComponent<{ style?: React.CSSProperties, onClick?: (event: React.MouseEvent<HTMLDivElement>) => void }> = (props) => {
     return (
-        <Wrapper {...props}>
+        <Wrapper {...props} onClick={props.onClick}>
             {props.children}
         </Wrapper>
     )
