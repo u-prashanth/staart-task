@@ -1,6 +1,6 @@
 import React, { FunctionComponent } from 'react'
 import styled from 'styled-components'
-import { ActionTextField, ColumnContainer, LabeledTextField, TextArea } from '.'
+import { ActionTextField, ColumnContainer, IconWrapper, LabeledTextField, LinkStyleButton, TextArea } from '.'
 import { IoIosArrowForward, IoMdTrash } from 'react-icons/all'
 
 const Wrapper = styled.div`
@@ -176,22 +176,6 @@ const TotalTextWrapper = styled.div`
 const Text = styled.div`
     font-family: SFUITextSemiBold;
     font-size: 14px;
-    // text-align: center;
-`
-
-const LinkStyleButton = styled.button`
-    border: none;
-    background-color: transparent;
-
-    font-family: SFUITextSemiBold;
-    font-size: 14px;
-    color: #e58800;
-
-    display: flex;
-    align-items: center;
-    align-self: center;
-
-    cursor: pointer;
 `
 
 export const ComponentsColumn: FunctionComponent<{}> = () => {
@@ -210,31 +194,9 @@ export const ComponentsColumn: FunctionComponent<{}> = () => {
                         <UnitComponentWrapper>
                             <UnitComponentHeader>
                                 <Text style={{ color: '#fff' }}>Component Name</Text>
-                                <IoMdTrash fontSize={20} color="#fff"/>
-                            </UnitComponentHeader>
-                            <UnitComponentBody>
-                                <TextArea placeholder="Description of the Component" onChange={e => console.log(e.target.value)}/>
-                                
-                                <LabeledTextField label="Quantity" placeholder="0" onChange={e => console.log(e.target.value)}/>
-                                <LabeledTextField label="Price" placeholder="₹ 0.0" onChange={e => console.log(e.target.value)}/>
-                                <LabeledTextField label="Units" placeholder="Ex. Sq.ft, in, cm, kg" onChange={e => console.log(e.target.value)}/>
-
-                                <TotalTextWrapper>
-                                    <Text style={{ color: '#868b8f' }}>Total</Text>
-                                    <Text style={{ color: '#222327' }}>₹ 4800</Text>
-                                </TotalTextWrapper>
-
-                                <LinkStyleButton>
-                                    Vendors <IoIosArrowForward fontSize={14} color="#e58800"/>
-                                </LinkStyleButton>
-                            </UnitComponentBody>
-                        </UnitComponentWrapper>
-
-
-                        <UnitComponentWrapper>
-                            <UnitComponentHeader>
-                                <Text style={{ color: '#fff' }}>Component Name</Text>
-                                <IoMdTrash fontSize={20} color="#fff"/>
+                                <IconWrapper>
+                                    <IoMdTrash fontSize={20} color="#fff"/>
+                                </IconWrapper>
                             </UnitComponentHeader>
                             <UnitComponentBody>
                                 <TextArea placeholder="Description of the Component" onChange={e => console.log(e.target.value)}/>

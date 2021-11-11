@@ -2,6 +2,7 @@ import React, { FunctionComponent } from 'react'
 import styled from 'styled-components'
 import { IoIosArrowForward, IoMdTrash } from 'react-icons/all'
 import { ActionTextField, Dropdown, IconWrapper, LabeledTextField, LinkStyleButton, TextArea } from '.'
+import { CategoryList } from '../categoryList'
 
 const TabBodyHeader = styled.div`
     width: 100%;
@@ -139,7 +140,7 @@ export const WorkTab: FunctionComponent = () => {
                     </WorkCardHeader>
 
                     <WorkCardBody>
-                        <Dropdown options={[ "Work", "Materials", "Work + Materials" ]} onChange={e => console.log(e.target.value)}/>
+                        <Dropdown options={CategoryList} onChange={e => console.log(e.target.value)}/>
                         <Dropdown options={[ "Work", "Materials", "Work + Materials" ]} onChange={e => console.log}/>
 
                         <TextArea placeholder="Description" onChange={e => console.log(e.target.value)}/>
