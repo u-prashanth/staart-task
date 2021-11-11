@@ -135,7 +135,7 @@ export const MilestonesColumn = () => {
 
                 <BodyWrapper>
                     <BodyHeader>
-                        <ActionTextField placeholder="Type to Add Milestone" onChange={e => console.log }/>
+                        <ActionTextField value="" placeholder="Type to Add Milestone" onChange={e => console.log }/>
                     </BodyHeader>
                     <Body>
                         <ThreeColGrid>

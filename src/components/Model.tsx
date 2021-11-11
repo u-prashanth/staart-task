@@ -12,11 +12,13 @@ const Wrapper = styled(motion.div)`
     top: 1;
     left: 0;
 
-    backdrop-filter: blur(8px);
+    backdrop-filter: blur(6px);
 
     overflow: hidden;
 
     pointer-events: auto;
+
+    z-index: 10;
 
 `
 const ContentWrapper = styled(motion.div)`

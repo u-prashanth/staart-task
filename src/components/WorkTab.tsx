@@ -128,7 +128,7 @@ export const WorkTab: FunctionComponent = () => {
     return (
         <>
             <TabBodyHeader>
-                <ActionTextField placeholder="Type here to Add Vendor" onChange={e => console.log(e.target.value)}/>
+                <ActionTextField value="" placeholder="Type here to Add Vendor" onChange={e => console.log(e.target.value)}/>
             </TabBodyHeader>
             <TabBody>
                 <WorkCard>

@@ -1,4 +1,4 @@
-import React, { ChangeEvent, FunctionComponent, useEffect, useState } from "react"
+import React, { FunctionComponent, useEffect } from "react"
 import styled from "styled-components"
 import { motion, useAnimation } from 'framer-motion'
 import { IoMdAdd } from 'react-icons/all'
@@ -65,7 +65,7 @@ interface IActionTextFieldProps
 {
     style?: React.CSSProperties;
     placeholder?: string;
-    value?: string | ''; 
+    value: string;
     onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
     onKeyDown?: (event: React.KeyboardEvent<HTMLInputElement>) => void;
     onClick?: (event: React.MouseEvent<HTMLDivElement>) => void
@@ -89,13 +89,13 @@ export const ActionTextField: FunctionComponent<IActionTextFieldProps> = (props:
 
     useEffect(() => {
         props.value !== '' ? animationControl.start("show") : animationControl.start("hide");
-    }, [props])
+    }, [props.value, animationControl])
 
     return (
         <Wrapper>
             <InputField
                 placeholder={props.placeholder || ''} 
-                value={props.value}
+                value={props.value || ''}
                 onChange={e => props.onChange(e)}
                 onKeyDown={props.onKeyDown}
             />

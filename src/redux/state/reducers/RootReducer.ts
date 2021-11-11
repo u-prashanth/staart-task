@@ -112,6 +112,8 @@ export const RootReducer = (state: IState = initialState, action: IAddUnitAction
                     {
                         return draftState.rooms![index].units?.unshift(action.payload.data)
                     }
+                    else
+                        return draftState.rooms![index].units
                 })
             })
 
@@ -123,6 +125,8 @@ export const RootReducer = (state: IState = initialState, action: IAddUnitAction
                         draftState.rooms![index].units?.splice(action.payload.unitIndex, 1);
                         return draftState.rooms![index].units
                     }
+                    else
+                        return draftState.rooms![index].units
                 })
             })
 

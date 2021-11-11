@@ -188,7 +188,7 @@ export const ComponentsColumn: FunctionComponent<{}> = () => {
 
                 <BodyWrapper>
                     <BodyHeader>
-                        <ActionTextField placeholder="Type here to Add Component" onChange={e => console.log(e.target.value)}/>
+                        <ActionTextField value="" placeholder="Type here to Add Component" onChange={e => console.log(e.target.value)}/>
                     </BodyHeader>
                     <Body>
                         <UnitComponentWrapper>
