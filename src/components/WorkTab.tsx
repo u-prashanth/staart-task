@@ -139,8 +139,9 @@ export const WorkTab: FunctionComponent = () => {
                     </WorkCardHeader>
 
                     <WorkCardBody>
-                        <Dropdown />
-                        <Dropdown />
+                        <Dropdown options={[ "Work", "Materials", "Work + Materials" ]} onChange={e => console.log(e.target.value)}/>
+                        <Dropdown options={[ "Work", "Materials", "Work + Materials" ]} onChange={e => console.log}/>
+
                         <TextArea placeholder="Description" onChange={e => console.log(e.target.value)}/>
                         <FieldGrid>
                             <LabeledTextField label="Quantity" placeholder="0" onChange={e => console.log(e.target.value)}/>

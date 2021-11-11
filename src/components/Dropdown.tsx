@@ -1,4 +1,4 @@
-import React, { FunctionComponent } from 'react'
+import React, { FunctionComponent, useState } from 'react'
 import styled from 'styled-components'
 
 const Wrapper = styled.select`
@@ -33,11 +33,29 @@ const Option = styled.option`
     color: #575757;
 `
 
-export const Dropdown: FunctionComponent<{}> = (props) => {
+interface IDropdownProps
+{
+    options: string[],
+    onChange: (event: React.ChangeEvent<HTMLSelectElement>) => void
+}
+
+export const Dropdown: FunctionComponent<IDropdownProps> = (props: IDropdownProps) => {
+
+    const [ value, setValue ] = useState('');
+
+    const handleValueChange = (value: string) => {
+        setValue(value)
+        console.log(value);        
+    }
+
     return (
-        <Wrapper {...props}>
-            <Option>Only Work</Option>
-            <Option>Work + Material</Option>
+        <Wrapper {...props} value={value} onChange={e => {
+            handleValueChange(e.target.value)
+            props.onChange(e)
+        }}>
+            {
+                props.options.map(option => <Option value={option}>{option}</Option>)
+            }
         </Wrapper>
     )
 }
