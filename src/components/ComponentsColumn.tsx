@@ -194,7 +194,7 @@ const UnitComponent: FunctionComponent<{ component: IComponent }> = (props: { co
 
     const dispatch = useDispatch();
 
-    const { UpdateComponentAction, ShowVendorPanelAction, SelectVendorIDAction, SelectComponentIDAction } = bindActionCreators(ActionCreators, dispatch);
+    const { ShowVendorPanelAction, SelectComponentIDAction } = bindActionCreators(ActionCreators, dispatch);
 
     const handleDescription = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
         setDescription(e.target.value);
@@ -360,8 +360,10 @@ export const ComponentsColumn: FunctionComponent<{}> = () => {
                                         {
                                             return unit.components?.map(component => <UnitComponent key={component.componentId} component={component}/>)
                                         }
+                                        return <React.Fragment />
                                     })
                                 }
+                                return <React.Fragment />
                             })
                         }
 

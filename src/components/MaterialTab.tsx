@@ -4,7 +4,7 @@ import { IoMdTrash } from 'react-icons/all'
 import { useDispatch, useSelector } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import styled from 'styled-components'
-import { ActionTextField, Dropdown, IconWrapper, LabeledTextField, LinkStyleButton, TextArea } from '.'
+import { ActionTextField, Dropdown, IconWrapper, LabeledTextField, TextArea } from '.'
 import { MaterialsList } from '../materialsList'
 import { ActionCreators } from '../redux'
 import { IMaterial, State } from '../redux/state/reducers/RootReducer'
@@ -236,7 +236,7 @@ const MaterialCard: FunctionComponent<{ material: IMaterial }> = (props: { mater
 export const MaterialTab: FunctionComponent = () => {
 
     const [ materialName, setMaterialName ] = useState('');
-    const { rooms, selectedRoomId, selectedUnitId, selectedComponentId, selectedVendorId, selectedMaterialId } = useSelector((state: State) => state.rooms);
+    const { rooms, selectedRoomId, selectedUnitId, selectedComponentId } = useSelector((state: State) => state.rooms);
 
     const dispatch = useDispatch();
 
@@ -294,10 +294,13 @@ export const MaterialTab: FunctionComponent = () => {
                                                 return <MaterialCard key={material.materialId} material={material}/>
                                             })
                                         }
+                                        return <React.Fragment />
                                     })
                                 }
+                                return <React.Fragment />
                             })
                         }
+                        return <React.Fragment />
                     })
                 }
             </TabBody>

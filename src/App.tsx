@@ -1,10 +1,8 @@
 import { AnimatePresence, motion } from 'framer-motion';
-import { FunctionComponent, useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { bindActionCreators } from 'redux';
+import { FunctionComponent } from 'react';
+import { useSelector } from 'react-redux';
 import styled from 'styled-components'
 import { ComponentsColumn, Header, MilestonesColumn, Sidebar, UnitsColumn, VendorColumn } from './components';
-import { ActionCreators } from './redux';
 import { State } from './redux/state/reducers/RootReducer';
 
 
@@ -81,10 +79,6 @@ const ContentWrapper = styled(motion.div)`
 `
 
 const App: FunctionComponent<{}> = () => {
-
-	const dispatch = useDispatch();
-
-    // const { AddUnitAction, RemoveUnitAction } = bindActionCreators(ActionCreators, dispatch);
 
 	const { showComponentsPanel, showVendorsPanel, showMilestonesPanel } = useSelector((state: State) => state.rooms);
 

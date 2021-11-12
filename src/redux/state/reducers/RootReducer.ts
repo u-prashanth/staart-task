@@ -224,13 +224,15 @@ export const RootReducer = (state: IState = initialState, action: IAddUnitAction
                 draftState.rooms?.map((room, roomIndex) => {
                     if(room.roomId === draftState.selectedRoomId)
                     {
-                        draftState.rooms![roomIndex].units?.map((unit, unitIndex) => {
+                        return draftState.rooms![roomIndex].units?.map((unit, unitIndex) => {
                             if(unit.unitId === draftState.selectedUnitId)
                             {
                                 return draftState.rooms![roomIndex].units![unitIndex].components?.unshift(action.payload.data)
                             }
+                            return draftState
                         })
                     }
+                    return draftState
                 })
             })
 
@@ -239,20 +241,23 @@ export const RootReducer = (state: IState = initialState, action: IAddUnitAction
                 draftState.rooms?.map((room, roomIndex) => {
                     if(room.roomId === draftState.selectedRoomId)
                     {
-                        draftState.rooms![roomIndex].units?.map((unit, unitIndex) => {
+                        return draftState.rooms![roomIndex].units?.map((unit, unitIndex) => {
                             if(unit.unitId === draftState.selectedUnitId)
                             {
-                                draftState.rooms![roomIndex].units![unitIndex].components?.map((component, componentIndex) => {
+                                return draftState.rooms![roomIndex].units![unitIndex].components?.map((component, componentIndex) => {
                                     if(component.componentId === action.payload.componentId)
                                     {
                                         return draftState.rooms![roomIndex].units![unitIndex].components![componentIndex] = {
                                             ...action.payload.data
                                         }
                                     }
+                                    return draftState
                                 })
                             }
+                            return draftState
                         })
                     }
+                    return draftState
                 })
             })
 
@@ -287,7 +292,7 @@ export const RootReducer = (state: IState = initialState, action: IAddUnitAction
                 draftState.rooms?.map((room, roomIndex) => {
                     if(room.roomId === draftState.selectedRoomId)
                     {
-                        draftState.rooms![roomIndex].units?.map((unit, unitIndex) => {
+                        return draftState.rooms![roomIndex].units?.map((unit, unitIndex) => {
                             if(unit.unitId === draftState.selectedUnitId)
                             {
                                 return draftState.rooms![roomIndex].units![unitIndex].components?.map((component, componentIndex) => {
@@ -295,10 +300,13 @@ export const RootReducer = (state: IState = initialState, action: IAddUnitAction
                                     {
                                         return draftState.rooms![roomIndex].units![unitIndex].components![componentIndex].vendor?.works?.unshift(action.payload.data)
                                     }
+                                    return draftState
                                 })
                             }
+                            return draftState
                         })
                     }
+                    return draftState
                 })
             })
 
@@ -308,7 +316,7 @@ export const RootReducer = (state: IState = initialState, action: IAddUnitAction
                 draftState.rooms?.map((room, roomIndex) => {
                     if(room.roomId === draftState.selectedRoomId)
                     {
-                        draftState.rooms![roomIndex].units?.map((unit, unitIndex) => {
+                        return draftState.rooms![roomIndex].units?.map((unit, unitIndex) => {
                             if(unit.unitId === draftState.selectedUnitId)
                             {
                                 return draftState.rooms![roomIndex].units![unitIndex].components?.map((component, componentIndex) => {
@@ -316,10 +324,13 @@ export const RootReducer = (state: IState = initialState, action: IAddUnitAction
                                     {
                                         return draftState.rooms![roomIndex].units![unitIndex].components![componentIndex].vendor?.materials?.unshift(action.payload.data)
                                     }
+                                    return draftState
                                 })
                             }
+                            return draftState
                         })
                     }
+                    return draftState
                 })
             })
 
@@ -331,7 +342,7 @@ export const RootReducer = (state: IState = initialState, action: IAddUnitAction
                 draftState.rooms?.map((room, roomIndex) => {
                     if(room.roomId === draftState.selectedRoomId)
                     {
-                        draftState.rooms![roomIndex].units?.map((unit, unitIndex) => {
+                        return draftState.rooms![roomIndex].units?.map((unit, unitIndex) => {
                             if(unit.unitId === draftState.selectedUnitId)
                             {
                                 return draftState.rooms![roomIndex].units![unitIndex].components?.map((component, componentIndex) => {
@@ -342,12 +353,16 @@ export const RootReducer = (state: IState = initialState, action: IAddUnitAction
                                             {
                                                 return draftState.rooms![roomIndex].units![unitIndex].components![componentIndex].vendor?.works![workIndex].milestones?.unshift(action.payload.data);
                                             }
+                                            return draftState
                                         })
                                     }
+                                    return draftState
                                 })
                             }
+                            return draftState
                         })
                     }
+                    return draftState
                 })
             })
 

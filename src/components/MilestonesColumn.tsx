@@ -235,12 +235,16 @@ export const MilestonesColumn: FunctionComponent<{}> = () => {
                                                         {
                                                             return work.milestones?.map(milestone => <Milestone milestone={milestone}/>)
                                                         }
+                                                        return <React.Fragment />
                                                     })
                                                 }
+                                                return <React.Fragment />
                                             })
                                         }
+                                        return <React.Fragment />
                                     })
                                 }
+                                return <React.Fragment />
                             })
                         }
                     </Body>
