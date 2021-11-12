@@ -12,10 +12,10 @@ export const AddUnitAction = (unit: any) => {
 }
 
 
-export const RemoveUnitAction = (unit: any) => {
+export const DeleteUnitAction = (unit: any) => {
     return (dispatch: Dispatch) => {
         dispatch({
-            type: 'Remove_Unit',
+            type: 'Delete_Unit',
             payload: {
                 ...unit
             }
@@ -64,6 +64,18 @@ export const UpdateComponentAction = (payload: any) => {
     return (dispatch: Dispatch) => {
         dispatch({
             type: 'Update_Component',
+            payload: {
+                ...payload
+            }
+        })
+    }
+}
+
+
+export const DeleteComponentAction = (payload: any) => {
+    return (dispatch: Dispatch) => {
+        dispatch({
+            type: 'Delete_Component',
             payload: {
                 ...payload
             }
@@ -123,6 +135,18 @@ export const AddWorkAction = (payload: any) => {
     return (dispatch: Dispatch) => {
         dispatch({
             type: 'Add_Work',
+            payload: {
+                ...payload
+            }
+        })
+    }
+} 
+
+
+export const DeleteWorkAction = (payload: any) => {
+    return (dispatch: Dispatch) => {
+        dispatch({
+            type: 'Delete_Work',
             payload: {
                 ...payload
             }

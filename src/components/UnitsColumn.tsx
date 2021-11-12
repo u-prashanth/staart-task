@@ -219,7 +219,7 @@ const RoomCard: FunctionComponent<{ room: IRoom }> = (props: { room: IRoom }) =>
 
     const dispatch = useDispatch();
 
-    const { AddUnitAction, RemoveUnitAction, ShowComponentPanelAction, ShowVendorPanelAction, SelectRoomAndUnitID } = bindActionCreators(ActionCreators, dispatch);
+    const { AddUnitAction, DeleteUnitAction, ShowComponentPanelAction, ShowVendorPanelAction, SelectRoomAndUnitID } = bindActionCreators(ActionCreators, dispatch);
 
     const resetInput = () => {
         setValue('');
@@ -294,7 +294,7 @@ const RoomCard: FunctionComponent<{ room: IRoom }> = (props: { room: IRoom }) =>
                                             </IconWrapper>
                                             <IconWrapper
                                                 onClick={e => {
-                                                    RemoveUnitAction({ roomId: props.room.roomId, unitId: unit.unitId })
+                                                    DeleteUnitAction({ roomId: props.room.roomId, unitId: unit.unitId })
                                                 }}
                                             >
                                                 <TiDelete fontSize={22} color="#ff5722"/>

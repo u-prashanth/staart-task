@@ -181,13 +181,13 @@ const WorkCard: FunctionComponent<{ work: IWork }> = (props: { work: IWork }) =>
 
 
     const dispatch = useDispatch();
-    const { ShowMilestonePanelAction, SelectWorkIDAction } = bindActionCreators(ActionCreators, dispatch);
+    const { ShowMilestonePanelAction, SelectWorkIDAction, DeleteWorkAction } = bindActionCreators(ActionCreators, dispatch);
 
     return (
         <WorkCardWrapper>
             <WorkCardHeader>
                 <Text style={{ color: '#fff' }}>{props.work.vendorName}</Text>
-                <IconWrapper>
+                <IconWrapper onClick={e => DeleteWorkAction({ workId: props.work.workId })}>
                     <IoMdTrash fontSize={20} color="#fff"/>
                 </IconWrapper>
             </WorkCardHeader>

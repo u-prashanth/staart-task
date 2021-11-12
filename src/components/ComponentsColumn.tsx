@@ -194,7 +194,7 @@ const UnitComponent: FunctionComponent<{ component: IComponent }> = (props: { co
 
     const dispatch = useDispatch();
 
-    const { ShowVendorPanelAction, SelectComponentIDAction } = bindActionCreators(ActionCreators, dispatch);
+    const { ShowVendorPanelAction, SelectComponentIDAction, DeleteComponentAction } = bindActionCreators(ActionCreators, dispatch);
 
     const handleDescription = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
         setDescription(e.target.value);
@@ -229,7 +229,7 @@ const UnitComponent: FunctionComponent<{ component: IComponent }> = (props: { co
         <UnitComponentWrapper>
             <UnitComponentHeader>
                 <Text style={{ color: '#fff' }}>{ props.component.name }</Text>
-                <IconWrapper>
+                <IconWrapper onClick={e => DeleteComponentAction({ componentId: props.component.componentId })}>
                     <IoMdTrash fontSize={20} color="#fff"/>
                 </IconWrapper>
             </UnitComponentHeader>
