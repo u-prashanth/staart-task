@@ -339,12 +339,12 @@ export const ComponentsColumn: FunctionComponent<{}> = () => {
                             onKeyDown={e => {
                                 if(e.key === 'Enter' && componentName !== '')
                                 {
-                                    AddComponentAction({ data: { unitId: new ObjectID().toHexString(), name: componentName, vendors: { vendorId: new ObjectID().toHexString() } } })
+                                    AddComponentAction({ data: { unitId: new ObjectID().toHexString(), name: componentName, vendor: { vendorId: new ObjectID().toHexString(), works: [], materials: [] } } })
                                     resetInput();
                                 }
                             }}
                             onClick={e => {
-                                AddComponentAction({ data: { unitId: new ObjectID().toHexString(), name: componentName, vendors: { vendorId: new ObjectID().toHexString() } } })
+                                AddComponentAction({ data: { unitId: new ObjectID().toHexString(), name: componentName, vendor: { vendorId: new ObjectID().toHexString(), works: [], materials: [] } } })
                                 resetInput();
                             }}
                         />

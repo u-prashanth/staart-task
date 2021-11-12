@@ -274,6 +274,12 @@ export const RootReducer = (state: IState = initialState, action: IAddUnitAction
                 draftState.selectedVendorId = action.payload.vendorId;
                 return draftState
             })
+
+        case 'Select_Work_ID':
+            return produce(state, (draftState) => {
+                draftState.selectedWorkId = action.payload.workId;
+                return draftState
+            })
         
 
         case 'Add_Work':
@@ -320,7 +326,30 @@ export const RootReducer = (state: IState = initialState, action: IAddUnitAction
 
 
 
-
+        case 'Add_Milestone':
+            return produce(state, (draftState) => {
+                draftState.rooms?.map((room, roomIndex) => {
+                    if(room.roomId === draftState.selectedRoomId)
+                    {
+                        draftState.rooms![roomIndex].units?.map((unit, unitIndex) => {
+                            if(unit.unitId === draftState.selectedUnitId)
+                            {
+                                return draftState.rooms![roomIndex].units![unitIndex].components?.map((component, componentIndex) => {
+                                    if(component.componentId === draftState.selectedComponentId)
+                                    {
+                                        return draftState.rooms![roomIndex].units![unitIndex].components![componentIndex].vendor?.works?.map((work, workIndex) => {
+                                            if(work.workId === draftState.selectedWorkId)
+                                            {
+                                                return draftState.rooms![roomIndex].units![unitIndex].components![componentIndex].vendor?.works![workIndex].milestones?.unshift(action.payload.data);
+                                            }
+                                        })
+                                    }
+                                })
+                            }
+                        })
+                    }
+                })
+            })
 
 
 

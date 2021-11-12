@@ -1,7 +1,12 @@
-import React from 'react'
+import ObjectID from 'bson-objectid'
+import React, { FunctionComponent, useEffect, useState } from 'react'
 import { IoMdTrash } from 'react-icons/all'
+import { useDispatch, useSelector } from 'react-redux'
+import { bindActionCreators } from 'redux'
 import styled from 'styled-components'
 import { ActionTextField, ColumnContainer, LabeledTextField } from '.'
+import { ActionCreators } from '../redux'
+import { IMilestone, State } from '../redux/state/reducers/RootReducer'
 
 const Wrapper = styled.div`
     width: 100%;
@@ -125,7 +130,68 @@ const IconWrapper = styled.div`
     }
 `
 
-export const MilestonesColumn = () => {
+
+const Milestone: FunctionComponent<{ milestone: IMilestone }> = (props: { milestone: IMilestone }) => {
+
+    const [ milestoneName, setMilestoneName ] = useState('');
+    const [ milestoneProgress, setMilestoneProgress ] = useState('');
+
+    const handleMilestoneNameInput = (e: string) => {
+        setMilestoneName(e)
+    }
+
+    const handleMilestoneProgressInput = (e: string) => {
+        setMilestoneProgress(e)
+    }
+
+    useEffect(() => {
+        setMilestoneName(props.milestone.milestoneName! || '');
+        setMilestoneProgress(props.milestone.progress!.toString()! || '');
+    }, [props.milestone])
+
+    return (
+        <ThreeColGrid>
+            <LabeledTextField 
+                value={milestoneName}
+                label="Milestone" 
+                placeholder="Milestone Name" 
+                onChange={e => handleMilestoneNameInput(e.target.value)}
+            />
+
+            <LabeledTextField 
+                type="number"
+                value={milestoneProgress}
+                label="%" 
+                placeholder="Progress" 
+                onChange={e => handleMilestoneProgressInput(e.target.value)}
+            />
+
+            <IconWrapper>
+                <IoMdTrash fontSize={22} color="red" style={{ marginTop: 24 }} />
+            </IconWrapper>
+        </ThreeColGrid>
+    )
+}
+
+
+export const MilestonesColumn: FunctionComponent<{}> = () => {
+
+    const [ milestoneName, setMilestoneName ] = useState('');
+
+    const { rooms, selectedRoomId, selectedUnitId, selectedComponentId, selectedWorkId } = useSelector((state: State) => state.rooms);
+
+    const dispatch = useDispatch();
+
+    const { AddMilestoneAction } = bindActionCreators(ActionCreators, dispatch);
+
+    const resetInput = () => {
+        setMilestoneName('');
+    }
+
+    const handleInput = (e: string) => {
+        setMilestoneName(e)
+    }
+
     return (
         <ColumnContainer>
             <Wrapper>
@@ -135,40 +201,48 @@ export const MilestonesColumn = () => {
 
                 <BodyWrapper>
                     <BodyHeader>
-                        <ActionTextField value="" placeholder="Type to Add Milestone" onChange={e => console.log }/>
+                        <ActionTextField 
+                            value={milestoneName}
+                            placeholder="Type here to Create Milestone" 
+                            onChange={e => handleInput(e.target.value)}
+                            onKeyDown={e => {
+                                if(e.key === 'Enter' && milestoneName !== '')
+                                {
+                                    AddMilestoneAction({ data: { milestoneId: new ObjectID().toHexString(), milestoneName, progress: 0 } })
+                                    resetInput();
+                                }
+                            }}
+                            onClick={e => {
+                                AddMilestoneAction({ data: { milestoneId: new ObjectID().toHexString(), milestoneName, progress: 0 } })
+                                resetInput();
+                            }}
+                        />
                     </BodyHeader>
                     <Body>
-                        <ThreeColGrid>
-                            <LabeledTextField label="Milestone" placeholder="Milestone Name" onChange={e => console.log(e.target.value)}/>
-                            <LabeledTextField label="%" placeholder="Progress" onChange={e => console.log(e.target.value)}/>
-                            <IconWrapper>
-                                <IoMdTrash fontSize={22} color="red" style={{ marginTop: 24 }} />
-                            </IconWrapper>
-                        </ThreeColGrid>
 
-                        <ThreeColGrid>
-                            <LabeledTextField label="Milestone" placeholder="Milestone Name" onChange={e => console.log(e.target.value)}/>
-                            <LabeledTextField label="%" placeholder="Progress" onChange={e => console.log(e.target.value)}/>
-                            <IconWrapper>
-                                <IoMdTrash fontSize={22} color="red" style={{ marginTop: 24 }} />
-                            </IconWrapper>
-                        </ThreeColGrid>
-
-                        <ThreeColGrid>
-                            <LabeledTextField label="Milestone" placeholder="Milestone Name" onChange={e => console.log(e.target.value)}/>
-                            <LabeledTextField label="%" placeholder="Progress" onChange={e => console.log(e.target.value)}/>
-                            <IconWrapper>
-                                <IoMdTrash fontSize={22} color="red" style={{ marginTop: 24 }} />
-                            </IconWrapper>
-                        </ThreeColGrid>
-
-                        <ThreeColGrid>
-                            <LabeledTextField label="Milestone" placeholder="Milestone Name" onChange={e => console.log(e.target.value)}/>
-                            <LabeledTextField label="%" placeholder="Progress" onChange={e => console.log(e.target.value)}/>
-                            <IconWrapper>
-                                <IoMdTrash fontSize={22} color="red" style={{ marginTop: 24 }} />
-                            </IconWrapper>
-                        </ThreeColGrid>
+                        {
+                            rooms?.map(room => {
+                                if(room.roomId === selectedRoomId)
+                                {
+                                    return room.units?.map(unit => {
+                                        if(unit.unitId === selectedUnitId)
+                                        {
+                                            return unit.components?.map(component => {
+                                                if(component.componentId === selectedComponentId)
+                                                {
+                                                    return component.vendor?.works!.map(work => {
+                                                        if(work.workId === selectedWorkId)
+                                                        {
+                                                            return work.milestones?.map(milestone => <Milestone milestone={milestone}/>)
+                                                        }
+                                                    })
+                                                }
+                                            })
+                                        }
+                                    })
+                                }
+                            })
+                        }
                     </Body>
                 </BodyWrapper>
             </Wrapper>

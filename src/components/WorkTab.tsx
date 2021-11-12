@@ -181,7 +181,7 @@ const WorkCard: FunctionComponent<{ work: IWork }> = (props: { work: IWork }) =>
 
 
     const dispatch = useDispatch();
-    const { ShowMilestonePanelAction } = bindActionCreators(ActionCreators, dispatch);
+    const { ShowMilestonePanelAction, SelectWorkIDAction } = bindActionCreators(ActionCreators, dispatch);
 
     return (
         <WorkCardWrapper>
@@ -244,7 +244,10 @@ const WorkCard: FunctionComponent<{ work: IWork }> = (props: { work: IWork }) =>
                 </TotalTextWrapper>
 
                 <LinkStyleButton
-                    onClick={e => ShowMilestonePanelAction({ show: true })}
+                    onClick={e => {
+                        SelectWorkIDAction({ workId: props.work.workId });
+                        ShowMilestonePanelAction({ show: true });
+                    }}
                 >
                     Vendor Milestones <IoIosArrowForward fontSize={14} color="#e58800"/>
                 </LinkStyleButton>
@@ -282,12 +285,12 @@ export const WorkTab: FunctionComponent = () => {
                     onKeyDown={e => {
                         if(e.key === 'Enter' && vendorName !== '')
                         {
-                            AddWorkAction({ data: { workId: new ObjectID().toHexString(), vendorName: vendorName } })
+                            AddWorkAction({ data: { workId: new ObjectID().toHexString(), vendorName: vendorName, milestones: [] } })
                             resetInput();
                         }
                     }}
                     onClick={e => {
-                        AddWorkAction({ data: { workId: new ObjectID().toHexString(), vendorName: vendorName } })
+                        AddWorkAction({ data: { workId: new ObjectID().toHexString(), vendorName: vendorName, milestones: [] } })
                         resetInput();
                     }}
                 />

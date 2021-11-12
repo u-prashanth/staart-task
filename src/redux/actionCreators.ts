@@ -107,6 +107,18 @@ export const SelectVendorIDAction = (payload: any) => {
 }
 
 
+export const SelectWorkIDAction = (payload: any) => {
+    return (dispatch: Dispatch) => {
+        dispatch({
+            type: 'Select_Work_ID',
+            payload: {
+                ...payload
+            }
+        })
+    }
+}
+
+
 export const AddWorkAction = (payload: any) => {
     return (dispatch: Dispatch) => {
         dispatch({
@@ -123,6 +135,18 @@ export const AddMaterialAction = (payload: any) => {
     return (dispatch: Dispatch) => {
         dispatch({
             type: 'Add_Material',
+            payload: {
+                ...payload
+            }
+        })
+    }
+} 
+
+
+export const AddMilestoneAction = (payload: any) => {
+    return (dispatch: Dispatch) => {
+        dispatch({
+            type: 'Add_Milestone',
             payload: {
                 ...payload
             }
