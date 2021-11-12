@@ -24,6 +24,7 @@ interface IButtonProps
 {
     style?: React.CSSProperties;
     children: React.ReactNode;
+    onClick?: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void
 }
 
 export const Button: FunctionComponent<IButtonProps> = (props: IButtonProps) => {
@@ -33,6 +34,7 @@ export const Button: FunctionComponent<IButtonProps> = (props: IButtonProps) => 
             whileHover={{ color: '#fff', backgroundColor: '#4177fe' }}
             transition={{ duration: 0.2 }}
             whileTap={{ backgroundColor: '#2122fe' }}
+            onClick={props.onClick}
         >
             {props.children}
         </Wrapper>

@@ -46,3 +46,50 @@ export const SelectRoomAndUnitID = (payload: any) => {
         })
     }
 }
+
+
+export const AddComponentAction = (payload: any) => {
+    return (dispatch: Dispatch) => {
+        dispatch({
+            type: 'Add_Component',
+            payload: {
+                ...payload
+            }
+        })
+    }
+}
+
+
+export const UpdateComponentAction = (payload: any) => {
+    return (dispatch: Dispatch) => {
+        dispatch({
+            type: 'Update_Component',
+            payload: {
+                ...payload
+            }
+        })
+    }
+}
+
+export const ShowVendorPanelAction = (payload: any) => {
+    return (dispatch: Dispatch) => {
+        dispatch({
+            type: 'Show_Vendor_Panel',
+            payload: {
+                ...payload
+            }
+        })
+    }
+}
+
+
+export const SelectComponentIDAction = (payload: any) => {
+    return (dispatch: Dispatch) => {
+        dispatch({
+            type: 'Select_Component_ID',
+            payload: {
+                ...payload
+            }
+        })
+    }
+}

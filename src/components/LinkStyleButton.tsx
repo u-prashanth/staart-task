@@ -20,9 +20,11 @@ const Wrapper = styled.button`
     }
 `
 
-export const LinkStyleButton: FunctionComponent<{}> = (props) => {
+export const LinkStyleButton: FunctionComponent<{ onClick?: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void }> = (props) => {
     return (
-        <Wrapper>
+        <Wrapper
+            onClick={props.onClick}
+        >
             {props.children}
         </Wrapper>
     )

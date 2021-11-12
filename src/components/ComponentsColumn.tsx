@@ -2,8 +2,11 @@ import React, { FunctionComponent, useEffect, useState } from 'react'
 import styled from 'styled-components'
 import { ActionTextField, ColumnContainer, IconWrapper, LabeledTextField, LinkStyleButton, TextArea } from '.'
 import { IoIosArrowForward, IoMdTrash } from 'react-icons/all'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { IComponent, State } from '../redux/state/reducers/RootReducer'
+import { bindActionCreators } from 'redux'
+import { ActionCreators } from '../redux'
+import ObjectID from 'bson-objectid'
 
 const Wrapper = styled.div`
     width: 100%;
@@ -189,6 +192,10 @@ const UnitComponent: FunctionComponent<{ component: IComponent }> = (props: { co
     const[ price, setPrice ] = useState('');
     const[ unit, setUnit ] = useState('');
 
+    const dispatch = useDispatch();
+
+    const { UpdateComponentAction, ShowVendorPanelAction } = bindActionCreators(ActionCreators, dispatch);
+
     const handleDescription = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
         setDescription(e.target.value);
     }
@@ -206,11 +213,16 @@ const UnitComponent: FunctionComponent<{ component: IComponent }> = (props: { co
     }
 
     useEffect(() => {
-        setDescription(props.component.description!);
-        setQuantity(props.component.quantity?.toString()!);
-        setPrice(props.component.price?.toString()!);
-        setUnit(props.component.unit!);
+        setDescription(props.component.description! || '');
+        setQuantity(props.component.quantity?.toString()! || '');
+        setPrice(props.component.price?.toString()! || '');
+        setUnit(props.component.unit! || '');
     }, [props.component])
+
+    // useEffect(() => {
+    //     console.log('Update');
+    //     UpdateComponentAction({ componentId: props.component.componentId, data: { description, quantity, price, unit } });
+    // }, [description, quantity, price, unit])
 
 
     return (
@@ -255,10 +267,12 @@ const UnitComponent: FunctionComponent<{ component: IComponent }> = (props: { co
 
                 <TotalTextWrapper>
                     <Text style={{ color: '#868b8f' }}>Total</Text>
-                    <Text style={{ color: '#222327' }}>₹ {parseInt(quantity) * parseFloat(quantity)}</Text>
+                    <Text style={{ color: '#222327' }}>₹ {parseInt(quantity || '0') * parseFloat(price || '0')}</Text>
                 </TotalTextWrapper>
 
-                <LinkStyleButton>
+                <LinkStyleButton
+                    onClick={e => ShowVendorPanelAction({ show: true })}
+                >
                     Vendors <IoIosArrowForward fontSize={14} color="#e58800"/>
                 </LinkStyleButton>
             </UnitComponentBody>
@@ -271,25 +285,65 @@ const UnitComponent: FunctionComponent<{ component: IComponent }> = (props: { co
 
 export const ComponentsColumn: FunctionComponent<{}> = () => {
 
+    const [ componentName, setComponentName ] = useState('');
+
+    const dispatch = useDispatch();
+
+    const { AddComponentAction } = bindActionCreators(ActionCreators, dispatch);
+
     const { rooms, selectedRoomId, selectedUnitId } = useSelector((state: State) => state.rooms);
 
     useEffect(() => {
-        console.log('Mounted');
     }, [])
+
+    const resetInput = () => {
+        setComponentName('');
+    }
+
+    const handleInput = (e: string) => {
+        setComponentName(e)
+    }
+
+    const GetHeaderName = () => {
+        return rooms?.map((room, roomIndex) => {
+            if(room.roomId === selectedRoomId)
+            {
+                return rooms[roomIndex].units?.map((unit, unitIndex) => {
+                    if(unit.unitId === selectedUnitId)
+                        return rooms![roomIndex].units![unitIndex].name + ' - ';
+                    else
+                        return ''
+                })
+            }
+            else
+                return ''
+        })
+    }
 
     return (
         <ColumnContainer>
             <Wrapper>
                 <Header>
-                    <ColumnTitle>Unit 1 - Components</ColumnTitle>
+                    <ColumnTitle>{GetHeaderName()} Components</ColumnTitle>
                 </Header>
 
                 <BodyWrapper>
                     <BodyHeader>
                         <ActionTextField 
-                            value="" 
+                            value={componentName}
                             placeholder="Type here to Add Component" 
-                            onChange={e => console.log(e.target.value)}
+                            onChange={e => handleInput(e.target.value)}
+                            onKeyDown={e => {
+                                if(e.key === 'Enter' && componentName !== '')
+                                {
+                                    AddComponentAction({ data: { unitId: new ObjectID().toHexString(), name: componentName } })
+                                    resetInput();
+                                }
+                            }}
+                            onClick={e => {
+                                AddComponentAction({ data: { unitId: new ObjectID().toHexString(), name: componentName } })
+                                resetInput();
+                            }}
                         />
                     </BodyHeader>
                     <Body>
@@ -301,8 +355,7 @@ export const ComponentsColumn: FunctionComponent<{}> = () => {
                                     return room.units?.map(unit => {
                                         if(unit.unitId === selectedUnitId)
                                         {
-                                            console.log(unit)
-                                            return unit.components?.map(component => <UnitComponent component={component}/>)
+                                            return unit.components?.map(component => <UnitComponent key={component.componentId} component={component}/>)
                                         }
                                     })
                                 }

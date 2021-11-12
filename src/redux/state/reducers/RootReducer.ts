@@ -111,7 +111,7 @@ const initialState: IState = {
                         {
                             componentId: new ObjectID().toHexString(),
                             name: 'Plywood',
-                            description: 'Hello Description',
+                            description: 'Plywood is an engineered wood sheet material made up of fine layers or flimsy strands of wood veneers attached together placing wood grains 90 degrees to one another. It is one type of manufactured board which can be described as a mixture of Medium Density Fibreboard (MDF) and Chip Board (Particle Board).',
                             quantity: 20,
                             price: 80,
                             unit: 'sq.ft',
@@ -175,26 +175,59 @@ export const RootReducer = (state: IState = initialState, action: IAddUnitAction
                 return draftState
             })
 
+
+        case 'Add_Component':
+            return produce(state, (draftState) => {
+                draftState.rooms?.map((room, roomIndex) => {
+                    if(room.roomId === draftState.selectedRoomId)
+                    {
+                        draftState.rooms![roomIndex].units?.map((unit, unitIndex) => {
+                            if(unit.unitId === draftState.selectedUnitId)
+                            {
+                                return draftState.rooms![roomIndex].units![unitIndex].components?.unshift(action.payload.data)
+                            }
+                        })
+                    }
+                })
+            })
+
+        case 'Update_Component':
+            return produce(state, (draftState) => {
+                draftState.rooms?.map((room, roomIndex) => {
+                    if(room.roomId === draftState.selectedRoomId)
+                    {
+                        draftState.rooms![roomIndex].units?.map((unit, unitIndex) => {
+                            if(unit.unitId === draftState.selectedUnitId)
+                            {
+                                draftState.rooms![roomIndex].units![unitIndex].components?.map((component, componentIndex) => {
+                                    if(component.componentId === action.payload.componentId)
+                                    {
+                                        return draftState.rooms![roomIndex].units![unitIndex].components![componentIndex] = {
+                                            ...action.payload.data
+                                        }
+                                    }
+                                })
+                            }
+                        })
+                    }
+                })
+            })
+
+        case 'Show_Vendor_Panel':
+            return produce(state, (draftState) => {
+                draftState.showVendorsPanel = action.payload.show
+                return draftState
+            })
+
+        case 'Select_Component_ID':
+            return produce(state, (draftState) => {
+                draftState.selectedComponentId = action.payload.componentId;
+                return draftState
+            })
+
+
         default:
             return state;
-
-        
-        
-
-        
-        // case 'Add_Component':
-        //     return produce(state, (draftState) => {
-        //         draftState.rooms?.map((room, index) => {
-        //             if(room.roomId === action.payload.roomId)
-        //             {
-        //                 draftState.rooms![index].units?.splice(action.payload.unitIndex, 1);
-        //                 return draftState.rooms![index].units
-        //             }
-        //         })
-        //     })
-
-        // default:
-        //     return state;
     }
 }
 
