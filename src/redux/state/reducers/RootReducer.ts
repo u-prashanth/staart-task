@@ -395,6 +395,35 @@ export const RootReducer = (state: IState = initialState, action: IAddUnitAction
             })
 
 
+        case 'Delete_Material':
+            return produce(state, (draftState) => {
+                draftState.rooms?.map((room, roomIndex) => {
+                    if(room.roomId === draftState.selectedRoomId)
+                    {
+                        return draftState.rooms![roomIndex].units?.map((unit, unitIndex) => {
+                            if(unit.unitId === draftState.selectedUnitId)
+                            {
+                                return draftState.rooms![roomIndex].units![unitIndex].components?.map((component, componentIndex) => {
+                                    if(component.componentId === draftState.selectedComponentId)
+                                    {
+                                        return draftState.rooms![roomIndex].units![unitIndex].components![componentIndex].vendor?.materials?.map((material, materialIndex) => {
+                                            if(material.materialId === action.payload.materialId)
+                                            {
+                                                draftState.rooms![roomIndex].units![unitIndex].components![componentIndex].vendor?.materials?.splice(materialIndex, 1);
+                                                return draftState;
+                                            }
+                                            return draftState
+                                        })
+                                    }
+                                    return draftState
+                                })
+                            }
+                            return draftState
+                        })
+                    }
+                    return draftState
+                })
+            })
 
 
         case 'Add_Milestone':
@@ -426,6 +455,42 @@ export const RootReducer = (state: IState = initialState, action: IAddUnitAction
                 })
             })
 
+
+        case 'Delete_Milestone':
+            return produce(state, (draftState) => {
+                draftState.rooms?.map((room, roomIndex) => {
+                    if(room.roomId === draftState.selectedRoomId)
+                    {
+                        return draftState.rooms![roomIndex].units?.map((unit, unitIndex) => {
+                            if(unit.unitId === draftState.selectedUnitId)
+                            {
+                                return draftState.rooms![roomIndex].units![unitIndex].components?.map((component, componentIndex) => {
+                                    if(component.componentId === draftState.selectedComponentId)
+                                    {
+                                        return draftState.rooms![roomIndex].units![unitIndex].components![componentIndex].vendor?.works?.map((work, workIndex) => {
+                                            if(work.workId === draftState.selectedWorkId)
+                                            {
+                                                return draftState.rooms![roomIndex].units![unitIndex].components![componentIndex].vendor?.works![workIndex].milestones?.map((milestone, milestoneIndex) => {
+                                                    if(milestone.milestoneId === action.payload.milestoneId)
+                                                    {
+                                                        draftState.rooms![roomIndex].units![unitIndex].components![componentIndex].vendor?.works![workIndex].milestones?.splice(milestoneIndex, 1);
+                                                        return draftState
+                                                    }
+                                                    return draftState
+                                                })
+                                            }
+                                            return draftState
+                                        })
+                                    }
+                                    return draftState
+                                })
+                            }
+                            return draftState
+                        })
+                    }
+                    return draftState
+                })
+            })
 
 
 

@@ -136,6 +136,10 @@ const Milestone: FunctionComponent<{ milestone: IMilestone }> = (props: { milest
     const [ milestoneName, setMilestoneName ] = useState('');
     const [ milestoneProgress, setMilestoneProgress ] = useState('');
 
+    const dispatch = useDispatch();
+
+    const { DeleteMilestoneAction } = bindActionCreators(ActionCreators, dispatch);
+
     const handleMilestoneNameInput = (e: string) => {
         setMilestoneName(e)
     }
@@ -166,7 +170,7 @@ const Milestone: FunctionComponent<{ milestone: IMilestone }> = (props: { milest
                 onChange={e => handleMilestoneProgressInput(e.target.value)}
             />
 
-            <IconWrapper>
+            <IconWrapper onClick={e => DeleteMilestoneAction({ milestoneId: props.milestone.milestoneId })}>
                 <IoMdTrash fontSize={22} color="red" style={{ marginTop: 24 }} />
             </IconWrapper>
         </ThreeColGrid>

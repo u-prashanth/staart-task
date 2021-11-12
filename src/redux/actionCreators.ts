@@ -167,10 +167,34 @@ export const AddMaterialAction = (payload: any) => {
 } 
 
 
+export const DeleteMaterialAction = (payload: any) => {
+    return (dispatch: Dispatch) => {
+        dispatch({
+            type: 'Delete_Material',
+            payload: {
+                ...payload
+            }
+        })
+    }
+} 
+
+
 export const AddMilestoneAction = (payload: any) => {
     return (dispatch: Dispatch) => {
         dispatch({
             type: 'Add_Milestone',
+            payload: {
+                ...payload
+            }
+        })
+    }
+} 
+
+
+export const DeleteMilestoneAction = (payload: any) => {
+    return (dispatch: Dispatch) => {
+        dispatch({
+            type: 'Delete_Milestone',
             payload: {
                 ...payload
             }

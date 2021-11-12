@@ -139,6 +139,10 @@ const MaterialCard: FunctionComponent<{ material: IMaterial }> = (props: { mater
     const [ gst, setGst ] = useState('');
     const [ unit, setUnit ] = useState('');
 
+    const dispatch = useDispatch();
+
+    const { DeleteMaterialAction } = bindActionCreators(ActionCreators, dispatch);
+
     const handleMaterialListSelection = (e: React.ChangeEvent<HTMLSelectElement>) => {
         setMaterialList(e.target.value);
     }
@@ -176,7 +180,7 @@ const MaterialCard: FunctionComponent<{ material: IMaterial }> = (props: { mater
         <MaterialCardWrapper>
             <MaterialCardHeader>
                 <Text style={{ color: '#fff' }}>{props.material.name}</Text>
-                <IconWrapper>
+                <IconWrapper onClick={e => DeleteMaterialAction({ materialId: props.material.materialId })}>
                     <IoMdTrash fontSize={20} color="#fff"/>
                 </IconWrapper>
             </MaterialCardHeader>
