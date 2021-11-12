@@ -187,14 +187,14 @@ const Text = styled.div`
 
 const UnitComponent: FunctionComponent<{ component: IComponent }> = (props: { component: IComponent }) => {
 
-    const[ description, setDescription ] = useState('');
-    const[ quantity, setQuantity ] = useState('');
-    const[ price, setPrice ] = useState('');
-    const[ unit, setUnit ] = useState('');
+    const [ description, setDescription ] = useState('');
+    const [ quantity, setQuantity ] = useState('');
+    const [ price, setPrice ] = useState('');
+    const [ unit, setUnit ] = useState('');
 
     const dispatch = useDispatch();
 
-    const { UpdateComponentAction, ShowVendorPanelAction } = bindActionCreators(ActionCreators, dispatch);
+    const { UpdateComponentAction, ShowVendorPanelAction, SelectVendorIDAction, SelectComponentIDAction } = bindActionCreators(ActionCreators, dispatch);
 
     const handleDescription = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
         setDescription(e.target.value);
@@ -271,7 +271,10 @@ const UnitComponent: FunctionComponent<{ component: IComponent }> = (props: { co
                 </TotalTextWrapper>
 
                 <LinkStyleButton
-                    onClick={e => ShowVendorPanelAction({ show: true })}
+                    onClick={e => {
+                        SelectComponentIDAction({ componentId: props.component.componentId })
+                        ShowVendorPanelAction({ show: true })
+                    }}
                 >
                     Vendors <IoIosArrowForward fontSize={14} color="#e58800"/>
                 </LinkStyleButton>
@@ -336,12 +339,12 @@ export const ComponentsColumn: FunctionComponent<{}> = () => {
                             onKeyDown={e => {
                                 if(e.key === 'Enter' && componentName !== '')
                                 {
-                                    AddComponentAction({ data: { unitId: new ObjectID().toHexString(), name: componentName } })
+                                    AddComponentAction({ data: { unitId: new ObjectID().toHexString(), name: componentName, vendors: { vendorId: new ObjectID().toHexString() } } })
                                     resetInput();
                                 }
                             }}
                             onClick={e => {
-                                AddComponentAction({ data: { unitId: new ObjectID().toHexString(), name: componentName } })
+                                AddComponentAction({ data: { unitId: new ObjectID().toHexString(), name: componentName, vendors: { vendorId: new ObjectID().toHexString() } } })
                                 resetInput();
                             }}
                         />

@@ -1,8 +1,10 @@
-import React, { FunctionComponent } from 'react'
+import React, { FunctionComponent, useEffect, useState } from 'react'
 import { IoMdTrash } from 'react-icons/all'
+import { useSelector } from 'react-redux'
 import styled from 'styled-components'
 import { ActionTextField, Dropdown, IconWrapper, LabeledTextField, LinkStyleButton, TextArea } from '.'
 import { MaterialsList } from '../materialsList'
+import { IMaterial, State } from '../redux/state/reducers/RootReducer'
 
 const TabBodyHeader = styled.div`
     width: 100%;
@@ -56,7 +58,7 @@ const TabBody = styled.div`
 `
 
 
-const MaterialCard = styled.div`
+const MaterialCardWrapper = styled.div`
     width: 100%;
 
     border-radius: 8px;
@@ -124,42 +126,168 @@ const TotalTextWrapper = styled.div`
     justify-content: space-between;
 `
 
+
+const MaterialCard: FunctionComponent<{ material: IMaterial }> = (props: { material: IMaterial }) => {
+
+    const [ materialList, setMaterialList ] = useState('');
+    const [ description, setDescription ] = useState('');
+    const [ quantity, setQuantity ] = useState('');
+    const [ price, setPrice ] = useState('');
+    const [ gst, setGst ] = useState('');
+    const [ unit, setUnit ] = useState('');
+
+    const handleMaterialListSelection = (e: React.ChangeEvent<HTMLSelectElement>) => {
+        setMaterialList(e.target.value);
+    }
+
+    const handleDescription = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+        setDescription(e.target.value);
+    }
+    
+    const handleQuantity = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setQuantity(e.target.value);
+    }
+
+    const handlePrice = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setPrice(e.target.value);
+    }
+
+    const handleGst = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setGst(e.target.value);
+    }
+
+    const handleUnit = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setUnit(e.target.value);
+    }
+
+    useEffect(() => {
+        setMaterialList(props.material.materialList! || '');
+        setDescription(props.material.description! || '');
+        setQuantity(props.material.quantity?.toString()! || '');
+        setPrice(props.material.price?.toString()! || '');
+        setGst(props.material.gst?.toString()! || '');
+        setUnit(props.material.unit! || '');
+    }, [props.material])
+
+    return (
+        <MaterialCardWrapper>
+            <MaterialCardHeader>
+                <Text style={{ color: '#fff' }}>{props.material.name}</Text>
+                <IconWrapper>
+                    <IoMdTrash fontSize={20} color="#fff"/>
+                </IconWrapper>
+            </MaterialCardHeader>
+
+            <MaterialCardBody>
+                <Dropdown
+                    value={materialList}
+                    options={MaterialsList}
+                    onChange={e => handleMaterialListSelection(e)}/>
+
+                <TextArea
+                    value={description}
+                    placeholder="Description" 
+                    onChange={e => handleDescription(e)}
+                />
+
+                <FieldGrid>
+                    <LabeledTextField 
+                        value={quantity}
+                        label="Quantity" 
+                        placeholder="0" 
+                        onChange={e => handleQuantity(e)}
+                    />
+                    
+                    <LabeledTextField 
+                        value={unit}
+                        label="Units" 
+                        placeholder="Ex. sq.ft, in, cm, kg" 
+                        onChange={e => handleUnit(e)}
+                    />
+                    
+                    <LabeledTextField 
+                        value={price}
+                        label="Price" 
+                        placeholder="₹ 0.0" 
+                        onChange={e => handlePrice(e)}
+                    />
+                    
+                    <LabeledTextField 
+                        value={gst}
+                        label="GST" 
+                        placeholder="₹ 0.0" 
+                        onChange={e => handleGst(e)}
+                    />
+                </FieldGrid>
+
+                <TotalTextWrapper>
+                    <Text style={{ color: '#868b8f' }}>Total</Text>
+                    <Text style={{ color: '#222327' }}>₹ {(parseInt(quantity || '0') * parseFloat(price || '0')) + parseFloat(gst || '0')}</Text>
+                </TotalTextWrapper>
+            </MaterialCardBody>
+        </MaterialCardWrapper>
+    )
+}
+
+
 export const MaterialTab: FunctionComponent = () => {
+
+    const [ materialName, setMaterialName ] = useState('');
+    const { rooms, selectedRoomId, selectedUnitId, selectedComponentId, selectedVendorId, selectedMaterialId } = useSelector((state: State) => state.rooms);
+
+    useEffect(() => {
+
+    }, [selectedComponentId])
+
+    const resetInput = () => {
+        setMaterialName('');
+    }
+
+    const handleInput = (e: string) => {
+        setMaterialName(e)
+    }
+
     return (
         <>
             <TabBodyHeader>
-                <ActionTextField value="" placeholder="Type here to Add Vendor" onChange={e => console.log(e.target.value)}/>
+                <ActionTextField 
+                    value={materialName}
+                    placeholder="Type here to Add Material" 
+                    onChange={e => handleInput(e.target.value)}
+                    onKeyDown={e => {
+                        if(e.key === 'Enter' && materialName !== '')
+                        {
+                            // AddComponentAction({ data: { unitId: new ObjectID().toHexString(), name: componentName, vendors: { vendorId: new ObjectID().toHexString() } } })
+                            resetInput();
+                        }
+                    }}
+                    onClick={e => {
+                        // AddComponentAction({ data: { unitId: new ObjectID().toHexString(), name: componentName, vendors: { vendorId: new ObjectID().toHexString() } } })
+                        resetInput();
+                    }}
+                />
             </TabBodyHeader>
             <TabBody>
-                <MaterialCard>
-                    <MaterialCardHeader>
-                        <Text style={{ color: '#fff' }}>Vendor</Text>
-                        <IconWrapper>
-                            <IoMdTrash fontSize={20} color="#fff"/>
-                        </IconWrapper>
-                    </MaterialCardHeader>
-
-                    <MaterialCardBody>
-                        <Dropdown options={MaterialsList} onChange={e => console.log(e.target.value)}/>
-                        <Dropdown options={[ "Work", "Materials", "Work + Materials" ]} onChange={e => console.log}/>
-
-                        <TextArea
-                            value="" 
-                            placeholder="Description" onChange={e => console.log(e.target.value)}/>
-                        <FieldGrid>
-                            <LabeledTextField label="Quantity" placeholder="0" onChange={e => console.log(e.target.value)}/>
-                            <LabeledTextField label="Units" placeholder="Ex. Sq.ft, in, cm, kg" onChange={e => console.log(e.target.value)}/>
-                            <LabeledTextField label="Price" placeholder="₹ 0.0" onChange={e => console.log(e.target.value)}/>
-                            <LabeledTextField label="GST" placeholder="₹ 0.0" onChange={e => console.log(e.target.value)}/>
-                        </FieldGrid>
-
-                        <TotalTextWrapper>
-                            <Text style={{ color: '#868b8f' }}>Total</Text>
-                            <Text style={{ color: '#222327' }}>₹ 4800</Text>
-                        </TotalTextWrapper>
-                    </MaterialCardBody>
-                </MaterialCard>
-
+                {
+                    rooms?.map(room => {
+                        if(room.roomId === selectedRoomId)
+                        {
+                            return room.units?.map(unit => {
+                                if(unit.unitId === selectedUnitId)
+                                {
+                                    return unit.components?.map(component => {
+                                        if(component.componentId === selectedComponentId)
+                                        {
+                                            return component.vendor?.materials!.map(material => {
+                                                return <MaterialCard key={material.materialId} material={material}/>
+                                            })
+                                        }
+                                    })
+                                }
+                            })
+                        }
+                    })
+                }
             </TabBody>
         </>
     )

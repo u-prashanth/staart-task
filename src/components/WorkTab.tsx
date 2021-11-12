@@ -1,8 +1,12 @@
-import React, { FunctionComponent } from 'react'
+import React, { FunctionComponent, useEffect, useState } from 'react'
 import styled from 'styled-components'
 import { IoIosArrowForward, IoMdTrash } from 'react-icons/all'
 import { ActionTextField, Dropdown, IconWrapper, LabeledTextField, LinkStyleButton, TextArea } from '.'
 import { CategoryList } from '../categoryList'
+import { useDispatch, useSelector } from 'react-redux'
+import { IWork, State } from '../redux/state/reducers/RootReducer'
+import { bindActionCreators } from 'redux'
+import { ActionCreators } from '../redux'
 
 const TabBodyHeader = styled.div`
     width: 100%;
@@ -56,7 +60,7 @@ const TabBody = styled.div`
 `
 
 
-const WorkCard = styled.div`
+const WorkCardWrapper = styled.div`
     width: 100%;
 
     border-radius: 8px;
@@ -124,45 +128,191 @@ const TotalTextWrapper = styled.div`
     justify-content: space-between;
 `
 
+
+const WorkCard: FunctionComponent<{ work: IWork }> = (props: { work: IWork }) => {
+
+    const [ workType, setWorkType ] = useState('');
+    const [ category, setCategory ] = useState('');
+    const [ description, setDescription ] = useState('');
+    const [ quantity, setQuantity ] = useState('');
+    const [ price, setPrice ] = useState('');
+    const [ gst, setGst ] = useState('');
+    const [ unit, setUnit ] = useState('');
+
+    const handleWorkType = (e: React.ChangeEvent<HTMLSelectElement>) => {
+        setWorkType(e.target.value);
+    }
+
+    const handleCategory = (e: React.ChangeEvent<HTMLSelectElement>) => {
+        setCategory(e.target.value);
+    }
+
+    const handleDescription = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+        setDescription(e.target.value);
+    }
+    
+    const handleQuantity = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setQuantity(e.target.value);
+    }
+
+    const handlePrice = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setPrice(e.target.value);
+    }
+
+    const handleGst = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setGst(e.target.value);
+    }
+
+    const handleUnit = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setUnit(e.target.value);
+    }
+
+
+    useEffect(() => {
+        setWorkType(props.work.workType! || '');
+        setCategory(props.work.category! || '');
+        setDescription(props.work.description! || '');
+        setQuantity(props.work.quantity?.toString()! || '');
+        setPrice(props.work.price?.toString()! || '');
+        setGst(props.work.gst?.toString()! || '');
+        setUnit(props.work.unit! || '');
+    }, [props.work])
+
+
+    const dispatch = useDispatch();
+    const { ShowMilestonePanelAction } = bindActionCreators(ActionCreators, dispatch);
+
+    return (
+        <WorkCardWrapper>
+            <WorkCardHeader>
+                <Text style={{ color: '#fff' }}>{props.work.vendorName}</Text>
+                <IconWrapper>
+                    <IoMdTrash fontSize={20} color="#fff"/>
+                </IconWrapper>
+            </WorkCardHeader>
+
+            <WorkCardBody>
+                <Dropdown 
+                    value={workType}
+                    options={[ "Work", "Materials", "Work + Materials" ]} 
+                    onChange={e => handleWorkType(e)}/>
+                
+                <Dropdown 
+                    value={category}
+                    options={CategoryList} 
+                    onChange={e => handleCategory(e)}/>
+
+                <TextArea
+                    value={description}
+                    placeholder="Description" 
+                    onChange={e => handleDescription(e)}/>
+
+                <FieldGrid>
+                    <LabeledTextField 
+                        value={quantity}
+                        label="Quantity" 
+                        placeholder="0" 
+                        onChange={e => handleQuantity(e)}
+                    />
+
+                    <LabeledTextField 
+                        value={unit}
+                        label="Units" 
+                        placeholder="Ex. sq.ft, in, cm, kg" 
+                        onChange={e => handleUnit(e)}
+                    />
+
+                    <LabeledTextField 
+                        value={price}
+                        label="Price" 
+                        placeholder="₹ 0.0" 
+                        onChange={e => handlePrice(e)}
+                    />
+
+                    <LabeledTextField 
+                        value={gst}
+                        label="GST" 
+                        placeholder="₹ 0.0" 
+                        onChange={e => handleGst(e)}
+                    />
+                </FieldGrid>
+
+                <TotalTextWrapper>
+                    <Text style={{ color: '#868b8f' }}>Total</Text>
+                    <Text style={{ color: '#222327' }}>₹ {(parseInt(quantity || '0') * parseFloat(price || '0')) + parseFloat(gst || '0')}</Text>
+                </TotalTextWrapper>
+
+                <LinkStyleButton
+                    onClick={e => ShowMilestonePanelAction({ show: true })}
+                >
+                    Vendor Milestones <IoIosArrowForward fontSize={14} color="#e58800"/>
+                </LinkStyleButton>
+            </WorkCardBody>
+        </WorkCardWrapper>
+    )
+}
+
+
 export const WorkTab: FunctionComponent = () => {
+
+    const [ vendorName, setVendorName ] = useState('');
+
+    const dispatch = useDispatch();
+
+    const { AddComponentAction } = bindActionCreators(ActionCreators, dispatch);
+
+    const { rooms, selectedRoomId, selectedUnitId, selectedComponentId } = useSelector((state: State) => state.rooms);
+
+    const resetInput = () => {
+        setVendorName('');
+    }
+
+    const handleInput = (e: string) => {
+        setVendorName(e)
+    }
+
     return (
         <>
             <TabBodyHeader>
-                <ActionTextField value="" placeholder="Type here to Add Vendor" onChange={e => console.log(e.target.value)}/>
+                <ActionTextField 
+                    value={vendorName} 
+                    placeholder="Type here to Add Vendor" 
+                    onChange={e => handleInput(e.target.value)}
+                    onKeyDown={e => {
+                        if(e.key === 'Enter' && vendorName !== '')
+                        {
+                            // AddComponentAction({ data: { unitId: new ObjectID().toHexString(), name: componentName } })
+                            resetInput();
+                        }
+                    }}
+                    onClick={e => {
+                        // AddComponentAction({ data: { unitId: new ObjectID().toHexString(), name: componentName } })
+                        resetInput();
+                    }}
+                />
             </TabBodyHeader>
             <TabBody>
-                <WorkCard>
-                    <WorkCardHeader>
-                        <Text style={{ color: '#fff' }}>Vendor</Text>
-                        <IconWrapper>
-                            <IoMdTrash fontSize={20} color="#fff"/>
-                        </IconWrapper>
-                    </WorkCardHeader>
-
-                    <WorkCardBody>
-                        <Dropdown options={CategoryList} onChange={e => console.log(e.target.value)}/>
-                        <Dropdown options={[ "Work", "Materials", "Work + Materials" ]} onChange={e => console.log}/>
-
-                        <TextArea
-                            value="" 
-                            placeholder="Description" onChange={e => console.log(e.target.value)}/>
-                        <FieldGrid>
-                            <LabeledTextField label="Quantity" placeholder="0" onChange={e => console.log(e.target.value)}/>
-                            <LabeledTextField label="Units" placeholder="Ex. Sq.ft, in, cm, kg" onChange={e => console.log(e.target.value)}/>
-                            <LabeledTextField label="Price" placeholder="₹ 0.0" onChange={e => console.log(e.target.value)}/>
-                            <LabeledTextField label="GST" placeholder="₹ 0.0" onChange={e => console.log(e.target.value)}/>
-                        </FieldGrid>
-
-                        <TotalTextWrapper>
-                            <Text style={{ color: '#868b8f' }}>Total</Text>
-                            <Text style={{ color: '#222327' }}>₹ 4800</Text>
-                        </TotalTextWrapper>
-
-                        <LinkStyleButton>
-                            Vendor Milestones <IoIosArrowForward fontSize={14} color="#e58800"/>
-                        </LinkStyleButton>
-                    </WorkCardBody>
-                </WorkCard>
+                
+                {
+                    rooms?.map(room => {
+                        if(room.roomId === selectedRoomId)
+                        {
+                            return room.units?.map(unit => {
+                                if(unit.unitId === selectedUnitId)
+                                {
+                                    return unit.components?.map(component => {
+                                        if(component.componentId === selectedComponentId)
+                                        {
+                                            return component.vendor?.works!.map(work => {
+                                                return <WorkCard key={work.workId} work={work}/>
+                                            })
+                                        }
+                                    })
+                                }
+                            })
+                        }
+                    })
+                }
 
             </TabBody>
         </>

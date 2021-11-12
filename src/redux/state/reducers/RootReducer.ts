@@ -2,14 +2,14 @@ import { combineReducers } from "redux";
 import { produce } from 'immer'
 import ObjectID from "bson-objectid";
 
-interface IMilestone
+export interface IMilestone
 {
     milestoneId: string;
     milestoneName?: string;
     progress?: number;
 }
 
-interface IWork
+export interface IWork
 {
     workId: string;
     vendorName: string;
@@ -23,10 +23,11 @@ interface IWork
     milestones?: IMilestone[];
 }
 
-interface IMaterial
+export interface IMaterial
 {
     materialId: string;
-    category: string;
+    name: string;
+    materialList: string;
     description?: string;
     quantity?: number;
     price?: number;
@@ -34,7 +35,7 @@ interface IMaterial
     unit?: string;
 }
 
-interface IVendor
+export interface IVendor
 {
     vendorId: string;
     works?: IWork[];
@@ -49,7 +50,7 @@ export interface IComponent
     quantity?: number;
     price?: number;
     unit?: string;
-    vendors?: IVendor[];
+    vendor?: IVendor;
 }
 
 export interface IUnit
@@ -77,6 +78,8 @@ interface IState
     selectedUnitId?: string;
     selectedComponentId?: string;
     selectedVendorId?: string;
+    selectedWorkId?: string;
+    selectedMaterialId?: string;
     selectedMilestoneId?: string;
 }
 
@@ -115,6 +118,46 @@ const initialState: IState = {
                             quantity: 20,
                             price: 80,
                             unit: 'sq.ft',
+                            vendor: {
+                                vendorId: new ObjectID().toHexString(),
+                                works: [
+                                    {
+                                        workId: new ObjectID().toHexString(),
+                                        vendorName: "Greenlam",
+                                        workType: 'Material',
+                                        category: 'Carpenter',
+                                        description: 'Plywood is an engineered wood sheet material made up of fine layers or flimsy strands of wood veneers attached together placing wood grains 90 degrees to one another. It is one type of manufactured board which can be described as a mixture of Medium Density Fibreboard (MDF) and Chip Board (Particle Board).',
+                                        quantity: 100,
+                                        price: 80,
+                                        gst: 400,
+                                        unit: 'sq.ft',
+                                        milestones: [
+                                            {
+                                                milestoneId: new ObjectID().toHexString(),
+                                                milestoneName: 'Wall Frame',
+                                                progress: 50
+                                            },
+                                            {
+                                                milestoneId: new ObjectID().toHexString(),
+                                                milestoneName: 'Finishing',
+                                                progress: 100
+                                            }
+                                        ]
+                                    }
+                                ],
+                                materials: [
+                                    {
+                                        materialId: new ObjectID().toHexString(),
+                                        name: 'Plywood',
+                                        materialList: 'Fan',
+                                        description: 'Plywood is an engineered wood sheet material made up of fine layers or flimsy strands of wood veneers attached together placing wood grains 90 degrees to one another. It is one type of manufactured board which can be described as a mixture of Medium Density Fibreboard (MDF) and Chip Board (Particle Board).',
+                                        quantity: 10,
+                                        price: 200,
+                                        gst: 300,
+                                        unit: 'sq.ft'
+                                    }
+                                ]
+                            }
                         }
                     ]
                 }
@@ -224,7 +267,47 @@ export const RootReducer = (state: IState = initialState, action: IAddUnitAction
                 draftState.selectedComponentId = action.payload.componentId;
                 return draftState
             })
+        
 
+        case 'Select_Vendor_ID':
+            return produce(state, (draftState) => {
+                draftState.selectedVendorId = action.payload.vendorId;
+                return draftState
+            })
+        
+
+        case 'Add_Work':
+            return produce(state, (draftState) => {
+                draftState.rooms?.map((room, roomIndex) => {
+                    if(room.roomId === draftState.selectedRoomId)
+                    {
+                        draftState.rooms![roomIndex].units?.map((unit, unitIndex) => {
+                            if(unit.unitId === draftState.selectedUnitId)
+                            {
+                                return draftState.rooms![roomIndex].units![unitIndex].components?.unshift(action.payload.data)
+                            }
+                        })
+                    }
+                })
+            })
+
+
+
+
+
+
+
+
+
+
+
+
+        case 'Show_Milestone_Panel':
+            return produce(state, (draftState) => {
+                draftState.showMilestonesPanel = action.payload.show
+                return draftState
+            })
+        
 
         default:
             return state;

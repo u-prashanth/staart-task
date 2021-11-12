@@ -93,3 +93,27 @@ export const SelectComponentIDAction = (payload: any) => {
         })
     }
 }
+
+
+export const SelectVendorIDAction = (payload: any) => {
+    return (dispatch: Dispatch) => {
+        dispatch({
+            type: 'Select_Vendor_ID',
+            payload: {
+                ...payload
+            }
+        })
+    }
+}
+
+
+export const ShowMilestonePanelAction = (payload: any) => {
+    return (dispatch: Dispatch) => {
+        dispatch({
+            type: 'Show_Milestone_Panel',
+            payload: {
+                ...payload
+            }
+        })
+    }
+}

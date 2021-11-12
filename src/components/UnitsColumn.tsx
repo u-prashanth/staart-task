@@ -219,7 +219,7 @@ const RoomCard: FunctionComponent<{ room: IRoom }> = (props: { room: IRoom }) =>
 
     const dispatch = useDispatch();
 
-    const { AddUnitAction, RemoveUnitAction, ShowComponentPanelAction, SelectRoomAndUnitID } = bindActionCreators(ActionCreators, dispatch);
+    const { AddUnitAction, RemoveUnitAction, ShowComponentPanelAction, ShowVendorPanelAction, SelectRoomAndUnitID } = bindActionCreators(ActionCreators, dispatch);
 
     const resetInput = () => {
         setValue('');
@@ -232,6 +232,7 @@ const RoomCard: FunctionComponent<{ room: IRoom }> = (props: { room: IRoom }) =>
     const handleSelection = (roomId: string, unitId: string) => {
         SelectRoomAndUnitID({ roomId, unitId });
         ShowComponentPanelAction({ show: true });
+        ShowVendorPanelAction({ show: false });
     }
 
     return (

@@ -35,26 +35,20 @@ const Option = styled.option`
 
 interface IDropdownProps
 {
-    options: string[],
+    value: string;
+    options?: string[],
     onChange: (event: React.ChangeEvent<HTMLSelectElement>) => void
 }
 
 export const Dropdown: FunctionComponent<IDropdownProps> = (props: IDropdownProps) => {
 
-    const [ value, setValue ] = useState('');
-
-    const handleValueChange = (value: string) => {
-        setValue(value)
-        console.log(value);        
-    }
-
     return (
-        <Wrapper {...props} value={value} onChange={e => {
-            handleValueChange(e.target.value)
-            props.onChange(e)
-        }}>
+        <Wrapper 
+            {...props} 
+            onChange={e => props.onChange(e)}
+        >
             {
-                props.options.map(option => <Option value={option}>{option}</Option>)
+                props.options!.map(option => <Option value={option}>{option}</Option>)
             }
         </Wrapper>
     )
