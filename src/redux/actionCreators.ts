@@ -22,3 +22,27 @@ export const RemoveUnitAction = (unit: any) => {
         })
     }
 }
+
+
+export const ShowComponentPanelAction = (payload: any) => {
+    return (dispatch: Dispatch) => {
+        dispatch({
+            type: 'Show_Component_Panel',
+            payload: {
+                ...payload
+            }
+        })
+    }
+}
+
+
+export const SelectRoomAndUnitID = (payload: any) => {
+    return (dispatch: Dispatch) => {
+        dispatch({
+            type: 'Select_Room_And_Unit_ID',
+            payload: {
+                ...payload
+            }
+        })
+    }
+}

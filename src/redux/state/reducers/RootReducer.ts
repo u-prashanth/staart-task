@@ -1,14 +1,17 @@
 import { combineReducers } from "redux";
 import { produce } from 'immer'
+import ObjectID from "bson-objectid";
 
 interface IMilestone
 {
+    milestoneId: string;
     milestoneName?: string;
     progress?: number;
 }
 
 interface IWork
 {
+    workId: string;
     vendorName: string;
     workType?: string;
     category?: string;
@@ -22,6 +25,7 @@ interface IWork
 
 interface IMaterial
 {
+    materialId: string;
     category: string;
     description?: string;
     quantity?: number;
@@ -32,12 +36,14 @@ interface IMaterial
 
 interface IVendor
 {
+    vendorId: string;
     works?: IWork[];
     materials?: IMaterial[];
 }
 
-interface IComponent
+export interface IComponent
 {
+    componentId: string;
     name: string;
     description?: string;
     quantity?: number;
@@ -46,15 +52,16 @@ interface IComponent
     vendors?: IVendor[];
 }
 
-interface IUnit
+export interface IUnit
 {
+    unitId: string;
     name: string;
     components?: IComponent[];
 }
 
 export interface IRoom
 {
-    roomId: string | number;
+    roomId: string;
     name: string;
     units?: IUnit[];
 }
@@ -62,38 +69,61 @@ export interface IRoom
 interface IState
 {
     rooms?: IRoom[];
+    showComponentsPanel?: boolean;
+    showVendorsPanel?: boolean;
+    showMilestonesPanel?: boolean;
+
+    selectedRoomId?: string;
+    selectedUnitId?: string;
+    selectedComponentId?: string;
+    selectedVendorId?: string;
+    selectedMilestoneId?: string;
 }
 
 
 const initialState: IState = {
     rooms: [
         {
-            roomId: 1,
-            name: 'Master Bedroom',
-            units: [
-                {
-                    name: 'Dressing Table',
-                    components: []
-                },
-                {
-                    name: 'Wardrobe',
-                    components: []
-                }
-            ]
-        },
-
-        {
-            roomId: 2,
+            roomId: new ObjectID().toHexString(),
             name: 'Drawing Room',
             units: []
         },
 
         {
-            roomId: 3,
+            roomId: new ObjectID().toHexString(),
             name: 'Kitchen',
             units: []
+        },
+
+        {
+            roomId: new ObjectID().toHexString(),
+            name: 'Master Bedroom',
+            units: [
+                {
+                    unitId: new ObjectID().toHexString(),
+                    name: 'Dressing Table',
+                    components: []
+                },
+                {
+                    unitId: new ObjectID().toHexString(),
+                    name: 'Wardrobe',
+                    components: [
+                        {
+                            componentId: new ObjectID().toHexString(),
+                            name: 'Plywood',
+                            description: 'Hello Description',
+                            quantity: 20,
+                            price: 80,
+                            unit: 'sq.ft',
+                        }
+                    ]
+                }
+            ]
         }
-    ]
+    ],
+    showComponentsPanel: false,
+    showVendorsPanel: false,
+    showMilestonesPanel: false
 }
 
 interface IAddUnitAction
@@ -122,7 +152,8 @@ export const RootReducer = (state: IState = initialState, action: IAddUnitAction
                 draftState.rooms?.map((room, index) => {
                     if(room.roomId === action.payload.roomId)
                     {
-                        draftState.rooms![index].units?.splice(action.payload.unitIndex, 1);
+                        let unitIndex: number = draftState.rooms![index].units?.findIndex(unit => action.payload.unitId === unit.unitId)!
+                        draftState.rooms![index].units?.splice(unitIndex, 1);
                         return draftState.rooms![index].units
                     }
                     else
@@ -130,8 +161,40 @@ export const RootReducer = (state: IState = initialState, action: IAddUnitAction
                 })
             })
 
+
+        case 'Show_Component_Panel':
+            return produce(state, (draftState) => {
+                draftState.showComponentsPanel = action.payload.show
+                return draftState
+            })
+
+        case 'Select_Room_And_Unit_ID':
+            return produce(state, (draftState) => {
+                draftState.selectedRoomId = action.payload.roomId;
+                draftState.selectedUnitId = action.payload.unitId;
+                return draftState
+            })
+
         default:
             return state;
+
+        
+        
+
+        
+        // case 'Add_Component':
+        //     return produce(state, (draftState) => {
+        //         draftState.rooms?.map((room, index) => {
+        //             if(room.roomId === action.payload.roomId)
+        //             {
+        //                 draftState.rooms![index].units?.splice(action.payload.unitIndex, 1);
+        //                 return draftState.rooms![index].units
+        //             }
+        //         })
+        //     })
+
+        // default:
+        //     return state;
     }
 }
 

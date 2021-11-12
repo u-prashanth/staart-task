@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { ActionCreators } from '../redux'
 import { IRoom, State } from '../redux/state/reducers/RootReducer'
+import ObjectID from 'bson-objectid'
 
 const Wrapper = styled.div`
     width: 100%;
@@ -218,7 +219,7 @@ const RoomCard: FunctionComponent<{ room: IRoom }> = (props: { room: IRoom }) =>
 
     const dispatch = useDispatch();
 
-    const { AddUnitAction, RemoveUnitAction } = bindActionCreators(ActionCreators, dispatch);
+    const { AddUnitAction, RemoveUnitAction, ShowComponentPanelAction, SelectRoomAndUnitID } = bindActionCreators(ActionCreators, dispatch);
 
     const resetInput = () => {
         setValue('');
@@ -226,6 +227,11 @@ const RoomCard: FunctionComponent<{ room: IRoom }> = (props: { room: IRoom }) =>
 
     const handleInput = (e: string) => {
         setValue(e)
+    }
+
+    const handleSelection = (roomId: string, unitId: string) => {
+        SelectRoomAndUnitID({ roomId, unitId });
+        ShowComponentPanelAction({ show: true });
     }
 
     return (
@@ -248,12 +254,12 @@ const RoomCard: FunctionComponent<{ room: IRoom }> = (props: { room: IRoom }) =>
                         onKeyDown={e => {
                             if(e.key === 'Enter' && value !== '')
                             {
-                                AddUnitAction({ roomId: props.room.roomId, data: { name: value, components: [] } })
+                                AddUnitAction({ roomId: props.room.roomId, data: { unitId: new ObjectID().toHexString(), name: value, components: [] } })
                                 resetInput();
                             }
                         }}
                         onClick={e => {
-                            AddUnitAction({ roomId: props.room.roomId, data: { name: value, components: [] } })
+                            AddUnitAction({ roomId: props.room.roomId, data: { unitId: new ObjectID().toHexString(), name: value, components: [] } })
                             resetInput();
                         }}
                     />
@@ -267,20 +273,27 @@ const RoomCard: FunctionComponent<{ room: IRoom }> = (props: { room: IRoom }) =>
                                 props.room.units?.map((unit, index) => (
                                     
                                     <UnitListItem
-                                        key={index}
+                                        key={unit.unitId}
                                         initial={{ borderBottomColor: 'transparent' }}
                                         animate={{ borderBottomColor: '#e8e8e8' }}
                                         exit={{ borderBottomColor: 'transparent' }}
                                         transition={{ duration: 0.2, ease: 'easeIn' }}
+                                        onClick={e => {
+                                            handleSelection(props.room.roomId, unit.unitId)
+                                        }}
                                     >
                                         <UnitListItemTitle>{unit.name}</UnitListItemTitle>
                                         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: 80 }}>
-                                            <IconWrapper>
+                                            <IconWrapper
+                                                onClick={e => {
+                                                    handleSelection(props.room.roomId, unit.unitId)
+                                                }}
+                                            >
                                                 <IoMdOpen fontSize={20} color="#212121"/>
                                             </IconWrapper>
                                             <IconWrapper
                                                 onClick={e => {
-                                                    RemoveUnitAction({ roomId: props.room.roomId, unitIndex: index })
+                                                    RemoveUnitAction({ roomId: props.room.roomId, unitId: unit.unitId })
                                                 }}
                                             >
                                                 <TiDelete fontSize={22} color="#ff5722"/>

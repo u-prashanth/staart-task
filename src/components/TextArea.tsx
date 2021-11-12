@@ -1,4 +1,4 @@
-import React, { FunctionComponent } from 'react'
+import React, { FunctionComponent, useEffect } from 'react'
 import styled from 'styled-components'
 
 const Wrapper = styled.textarea`
@@ -52,17 +52,25 @@ interface ITextAreaProps
 {
     style?: React.CSSProperties;
     placeholder?: string;
+    value: string;
     onChange: (event: React.ChangeEvent<HTMLTextAreaElement>) => void;
+    onKeyDown?: (event: React.KeyboardEvent<HTMLTextAreaElement>) => void;
 }
 
 export const TextArea: FunctionComponent<ITextAreaProps> = (props: ITextAreaProps) => {
+
+
+    useEffect(() => {
+
+    }, [props.value])
+
     return (
         <Wrapper 
             {...props}
             rows={5}
-            onChange={e => {
-                props.onChange(e)
-            }}
+            value={props.value}
+            onChange={e => props.onChange(e)}
+            onKeyDown={props.onKeyDown}
         />
     )
 }

@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useState } from 'react'
+import React, { FunctionComponent, useEffect, useState } from 'react'
 import styled from 'styled-components'
 
 const Wrapper = styled.div`
@@ -63,6 +63,7 @@ const InputField = styled.input`
 interface ILabeledTextFieldProps
 {
     label: string;
+    value?: string | number;
     style?: React.CSSProperties;
     type?: React.HTMLInputTypeAttribute | undefined;
     placeholder?: string;
@@ -71,11 +72,9 @@ interface ILabeledTextFieldProps
 
 export const LabeledTextField: FunctionComponent<ILabeledTextFieldProps> = (props: ILabeledTextFieldProps) => {
 
-    const [ value, setValue ] = useState('');
+    useEffect(() => {
 
-    const handleInputChange = (value: any) => {
-        setValue(value);
-    }
+    }, [props.value])
 
     return (
         <Wrapper>
@@ -85,11 +84,8 @@ export const LabeledTextField: FunctionComponent<ILabeledTextFieldProps> = (prop
 
             <InputField 
                 {...props}
-                value={value}
-                onChange={e => {
-                    handleInputChange(e.target.value);
-                    props.onChange(e);
-                }}
+                value={props.value}
+                onChange={e => props.onChange(e)}
             />
 
             

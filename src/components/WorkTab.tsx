@@ -143,7 +143,9 @@ export const WorkTab: FunctionComponent = () => {
                         <Dropdown options={CategoryList} onChange={e => console.log(e.target.value)}/>
                         <Dropdown options={[ "Work", "Materials", "Work + Materials" ]} onChange={e => console.log}/>
 
-                        <TextArea placeholder="Description" onChange={e => console.log(e.target.value)}/>
+                        <TextArea
+                            value="" 
+                            placeholder="Description" onChange={e => console.log(e.target.value)}/>
                         <FieldGrid>
                             <LabeledTextField label="Quantity" placeholder="0" onChange={e => console.log(e.target.value)}/>
                             <LabeledTextField label="Units" placeholder="Ex. Sq.ft, in, cm, kg" onChange={e => console.log(e.target.value)}/>
