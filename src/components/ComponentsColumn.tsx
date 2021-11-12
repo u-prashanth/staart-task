@@ -339,12 +339,12 @@ export const ComponentsColumn: FunctionComponent<{}> = () => {
                             onKeyDown={e => {
                                 if(e.key === 'Enter' && componentName !== '')
                                 {
-                                    AddComponentAction({ data: { unitId: new ObjectID().toHexString(), name: componentName, vendor: { vendorId: new ObjectID().toHexString(), works: [], materials: [] } } })
+                                    AddComponentAction({ data: { unitId: new ObjectID().toHexString(), componentId: new ObjectID().toHexString(), name: componentName, vendor: { vendorId: new ObjectID().toHexString(), works: [], materials: [] } } })
                                     resetInput();
                                 }
                             }}
                             onClick={e => {
-                                AddComponentAction({ data: { unitId: new ObjectID().toHexString(), name: componentName, vendor: { vendorId: new ObjectID().toHexString(), works: [], materials: [] } } })
+                                AddComponentAction({ data: { unitId: new ObjectID().toHexString(), componentId: new ObjectID().toHexString(), vendor: { vendorId: new ObjectID().toHexString(), works: [], materials: [] } } })
                                 resetInput();
                             }}
                         />
@@ -360,10 +360,10 @@ export const ComponentsColumn: FunctionComponent<{}> = () => {
                                         {
                                             return unit.components?.map(component => <UnitComponent key={component.componentId} component={component}/>)
                                         }
-                                        return <React.Fragment />
+                                        return <React.Fragment key={unit.unitId}/>
                                     })
                                 }
-                                return <React.Fragment />
+                                return <React.Fragment key={room.roomId}/>
                             })
                         }
 

@@ -233,18 +233,18 @@ export const MilestonesColumn: FunctionComponent<{}> = () => {
                                                     return component.vendor?.works!.map(work => {
                                                         if(work.workId === selectedWorkId)
                                                         {
-                                                            return work.milestones?.map(milestone => <Milestone milestone={milestone}/>)
+                                                            return work.milestones?.map(milestone => <Milestone key={milestone.milestoneId} milestone={milestone}/>)
                                                         }
-                                                        return <React.Fragment />
+                                                        return <React.Fragment key={work.workId}/>
                                                     })
                                                 }
-                                                return <React.Fragment />
+                                                return <React.Fragment key={component.componentId}/>
                                             })
                                         }
-                                        return <React.Fragment />
+                                        return <React.Fragment key={unit.unitId}/>
                                     })
                                 }
-                                return <React.Fragment />
+                                return <React.Fragment key={room.roomId}/>
                             })
                         }
                     </Body>

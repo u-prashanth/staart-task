@@ -1,4 +1,4 @@
-import { AnimatePresence, motion } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { FunctionComponent } from 'react';
 import { useSelector } from 'react-redux';
 import styled from 'styled-components'
@@ -92,12 +92,10 @@ const App: FunctionComponent<{}> = () => {
 
 					</Header>
 					<ContentWrapper>
-						<AnimatePresence>
-							<UnitsColumn />
-							{ showComponentsPanel && <ComponentsColumn /> }
-							{ showVendorsPanel && <VendorColumn /> }
-							{ showMilestonesPanel && <MilestonesColumn /> }
-						</AnimatePresence>
+						<UnitsColumn />
+						{ showComponentsPanel && <ComponentsColumn /> }
+						{ showVendorsPanel && <VendorColumn /> }
+						{ showMilestonesPanel && <MilestonesColumn /> }
 					</ContentWrapper>
 				</VerticalContentWrapper>
 			</Body>

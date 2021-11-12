@@ -94,7 +94,7 @@ export const TabComponent: FunctionComponent<ITabComponentProps> = (props: ITabC
             <TabHeader>
                 {
                     props.tabData.map((tab, index) => (
-                        <Tab selected={tabSelectionIndex === index} onClick={e => setTabSelectionIndex(index)}>
+                        <Tab key={index} selected={tabSelectionIndex === index} onClick={e => setTabSelectionIndex(index)}>
                             <TabTitle>{tab.title}</TabTitle>
                         </Tab>
                     ))
@@ -103,7 +103,7 @@ export const TabComponent: FunctionComponent<ITabComponentProps> = (props: ITabC
 
             <TabBodyWrapper>
                 {
-                    props.tabData.map((tab, index) => tabSelectionIndex === index && tab.component)
+                    props.tabData.map((tab, index) => tabSelectionIndex === index && <React.Fragment key={index}>{tab.component}</React.Fragment>)
                 }
             </TabBodyWrapper>
         </Wrapper>

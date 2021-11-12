@@ -311,13 +311,13 @@ export const WorkTab: FunctionComponent = () => {
                                                 return <WorkCard key={work.workId} work={work}/>
                                             })
                                         }
-                                        return <React.Fragment />
+                                        return <React.Fragment key={component.componentId}/>
                                     })
                                 }
-                                return <React.Fragment />
+                                return <React.Fragment key={unit.unitId}/>
                             })
                         }
-                        return <React.Fragment />
+                        return <React.Fragment key={room.roomId}/>
                     })
                 }
 

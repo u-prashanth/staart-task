@@ -294,13 +294,13 @@ export const MaterialTab: FunctionComponent = () => {
                                                 return <MaterialCard key={material.materialId} material={material}/>
                                             })
                                         }
-                                        return <React.Fragment />
+                                        return <React.Fragment key={component.componentId}/>
                                     })
                                 }
-                                return <React.Fragment />
+                                return <React.Fragment key={unit.unitId}/>
                             })
                         }
-                        return <React.Fragment />
+                        return <React.Fragment key={room.roomId}/>
                     })
                 }
             </TabBody>

@@ -44,11 +44,11 @@ export const Dropdown: FunctionComponent<IDropdownProps> = (props: IDropdownProp
 
     return (
         <Wrapper 
-            {...props} 
+            {...props}
             onChange={e => props.onChange(e)}
         >
             {
-                props.options!.map(option => <Option value={option}>{option}</Option>)
+                props.options!.map(option => <Option key={option} value={option}>{option}</Option>)
             }
         </Wrapper>
     )
