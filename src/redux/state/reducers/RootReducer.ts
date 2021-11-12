@@ -284,7 +284,12 @@ export const RootReducer = (state: IState = initialState, action: IAddUnitAction
                         draftState.rooms![roomIndex].units?.map((unit, unitIndex) => {
                             if(unit.unitId === draftState.selectedUnitId)
                             {
-                                return draftState.rooms![roomIndex].units![unitIndex].components?.unshift(action.payload.data)
+                                return draftState.rooms![roomIndex].units![unitIndex].components?.map((component, componentIndex) => {
+                                    if(component.componentId === draftState.selectedComponentId)
+                                    {
+                                        return draftState.rooms![roomIndex].units![unitIndex].components![componentIndex].vendor?.works?.unshift(action.payload.data)
+                                    }
+                                })
                             }
                         })
                     }
@@ -292,7 +297,25 @@ export const RootReducer = (state: IState = initialState, action: IAddUnitAction
             })
 
 
-
+        case 'Add_Material':
+            return produce(state, (draftState) => {
+                draftState.rooms?.map((room, roomIndex) => {
+                    if(room.roomId === draftState.selectedRoomId)
+                    {
+                        draftState.rooms![roomIndex].units?.map((unit, unitIndex) => {
+                            if(unit.unitId === draftState.selectedUnitId)
+                            {
+                                return draftState.rooms![roomIndex].units![unitIndex].components?.map((component, componentIndex) => {
+                                    if(component.componentId === draftState.selectedComponentId)
+                                    {
+                                        return draftState.rooms![roomIndex].units![unitIndex].components![componentIndex].vendor?.materials?.unshift(action.payload.data)
+                                    }
+                                })
+                            }
+                        })
+                    }
+                })
+            })
 
 
 

@@ -1,9 +1,12 @@
+import ObjectID from 'bson-objectid'
 import React, { FunctionComponent, useEffect, useState } from 'react'
 import { IoMdTrash } from 'react-icons/all'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
+import { bindActionCreators } from 'redux'
 import styled from 'styled-components'
 import { ActionTextField, Dropdown, IconWrapper, LabeledTextField, LinkStyleButton, TextArea } from '.'
 import { MaterialsList } from '../materialsList'
+import { ActionCreators } from '../redux'
 import { IMaterial, State } from '../redux/state/reducers/RootReducer'
 
 const TabBodyHeader = styled.div`
@@ -235,6 +238,15 @@ export const MaterialTab: FunctionComponent = () => {
     const [ materialName, setMaterialName ] = useState('');
     const { rooms, selectedRoomId, selectedUnitId, selectedComponentId, selectedVendorId, selectedMaterialId } = useSelector((state: State) => state.rooms);
 
+    const dispatch = useDispatch();
+
+    const { ShowMilestonePanelAction, AddMaterialAction } = bindActionCreators(ActionCreators, dispatch);
+
+
+    useEffect(() => {
+        ShowMilestonePanelAction({ show: false });
+    })
+
     useEffect(() => {
 
     }, [selectedComponentId])
@@ -257,12 +269,12 @@ export const MaterialTab: FunctionComponent = () => {
                     onKeyDown={e => {
                         if(e.key === 'Enter' && materialName !== '')
                         {
-                            // AddComponentAction({ data: { unitId: new ObjectID().toHexString(), name: componentName, vendors: { vendorId: new ObjectID().toHexString() } } })
+                            AddMaterialAction({ data: { materialId: new ObjectID().toHexString(), name: materialName } })
                             resetInput();
                         }
                     }}
                     onClick={e => {
-                        // AddComponentAction({ data: { unitId: new ObjectID().toHexString(), name: componentName, vendors: { vendorId: new ObjectID().toHexString() } } })
+                        AddMaterialAction({ data: { materialId: new ObjectID().toHexString(), name: materialName } })
                         resetInput();
                     }}
                 />

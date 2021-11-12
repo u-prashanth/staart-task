@@ -107,6 +107,30 @@ export const SelectVendorIDAction = (payload: any) => {
 }
 
 
+export const AddWorkAction = (payload: any) => {
+    return (dispatch: Dispatch) => {
+        dispatch({
+            type: 'Add_Work',
+            payload: {
+                ...payload
+            }
+        })
+    }
+} 
+
+
+export const AddMaterialAction = (payload: any) => {
+    return (dispatch: Dispatch) => {
+        dispatch({
+            type: 'Add_Material',
+            payload: {
+                ...payload
+            }
+        })
+    }
+} 
+
+
 export const ShowMilestonePanelAction = (payload: any) => {
     return (dispatch: Dispatch) => {
         dispatch({

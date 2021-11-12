@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { IWork, State } from '../redux/state/reducers/RootReducer'
 import { bindActionCreators } from 'redux'
 import { ActionCreators } from '../redux'
+import ObjectID from 'bson-objectid'
 
 const TabBodyHeader = styled.div`
     width: 100%;
@@ -259,7 +260,7 @@ export const WorkTab: FunctionComponent = () => {
 
     const dispatch = useDispatch();
 
-    const { AddComponentAction } = bindActionCreators(ActionCreators, dispatch);
+    const { AddWorkAction } = bindActionCreators(ActionCreators, dispatch);
 
     const { rooms, selectedRoomId, selectedUnitId, selectedComponentId } = useSelector((state: State) => state.rooms);
 
@@ -281,12 +282,12 @@ export const WorkTab: FunctionComponent = () => {
                     onKeyDown={e => {
                         if(e.key === 'Enter' && vendorName !== '')
                         {
-                            // AddComponentAction({ data: { unitId: new ObjectID().toHexString(), name: componentName } })
+                            AddWorkAction({ data: { workId: new ObjectID().toHexString(), vendorName: vendorName } })
                             resetInput();
                         }
                     }}
                     onClick={e => {
-                        // AddComponentAction({ data: { unitId: new ObjectID().toHexString(), name: componentName } })
+                        AddWorkAction({ data: { workId: new ObjectID().toHexString(), vendorName: vendorName } })
                         resetInput();
                     }}
                 />
